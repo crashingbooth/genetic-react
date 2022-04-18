@@ -1,6 +1,7 @@
 class Pattern {
   constructor(numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
+    this.samples = this.chooseSamples(length);
   }
 
   generateBasic(beats) {
@@ -10,6 +11,18 @@ class Pattern {
       res.push([...simple]);
     }
     return res;
+  }
+
+  chooseSamples(beats) {
+    let samples = [];
+    for (let i = 0; i < beats; i++) {
+      let beat = [];
+      for (let j = 0; j < 4; j++) {
+        beat.push(Math.floor(Math.random() * 100);
+      }
+      samples.push(beat);
+    }
+    return samples;
   }
 
   setPhrase(phraseString) {
@@ -51,11 +64,15 @@ class Pattern {
 
   breed(other) {
     let child = new Pattern();
-    let childArr = [];
+    let childPhrase = [];
+    let childSamples = [];
     for (let i = 0; i < this.phrase.length; i++) {
-      childArr.push(coin() ? [...this.phrase[i]] : [...other.phrase[i]])
+      const choice = coin();
+      childPhrase.push(choice ? [...this.phrase[i]] : [...other.phrase[i]])
+      childSamples.push(choice ? [...this.samples[i]] : [...other.samples[i]])
     }
-    child.phrase = childArr;
+    child.phrase = childPhrase;
+    child.samples = childSamples;
     return child;
   }
 }
