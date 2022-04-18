@@ -1,0 +1,36 @@
+
+.on-dot {
+  background-color: #000;
+}
+
+.off-dot {
+  background-color: #bbb;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  20% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.dot--once {
+  animation: blink 0.5s 1;
+}
+
+.highlighted-dot {
+    background-color: blue;
+}
+
+.muted-dot {
+    background-color: yellow;
+}
+
+.light-background-chunk {
+  background: #ddd;
+  display: inline-block;
+}
+
+.dark-background-chunk {
+  display: inline-block;
+  background: #aaa;
+}

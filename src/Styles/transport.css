@@ -1,0 +1,35 @@
+.transport-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: auto 0 ;
+}
+
+.tempo-wrapper {
+  border: 1px solid #666;
+  display: flex;
+}
+
+.tempo-wrapper p {
+  max-resolution: 0;
+}
+
+.stepper {
+  display: block;
+}
+
+.stepper-left {
+  float: left;
+}
+
+.stepper-right {
+  float: right;
+}
+
+.transport-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.playing {
+  background-color: #DC143C
+}
