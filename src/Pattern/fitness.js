@@ -106,6 +106,17 @@ const roleBasedEvaluation = [
   }
 ]
 
+function sortByEvaluation(candidates, evaluators) {
+  // candidates: [Pattern]
+  // evaluators: [{fitnessFunction, weight}]
+  // returns [Pattern] sorted by evaluation score
+
+  const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
+  const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
+  const sortedCandidates = sortedScores.map(([cand, score]) => cand);
+  return sortedCandidates;
+}
+
 module.exports  = { matchSingleChromosome,
                     rewardSingleCorrectChomosome,
                     punishSingleWrongChromosome,
@@ -115,5 +126,6 @@ module.exports  = { matchSingleChromosome,
                     evaluateRoleNegative,  // public
                     evaluateDensity,
                     evaluate, // public
-                    roleBasedEvaluation // public
+                    roleBasedEvaluation, // public
+                    sortByEvaluation
                   };
