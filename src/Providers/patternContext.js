@@ -8,8 +8,7 @@ import { Pattern } from "../Pattern/pattern";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-
-  const sampleLines = [new Pattern(), new Pattern()];
+  const sampleLines = [new Pattern(), new Pattern(), new Pattern()];
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -20,10 +19,19 @@ const PatternProvider = (props) => {
   const [bpm, setBpm] = useState(120);
 
   useEffect(() => {
-    // linesRef.current = deepCopyTrackSet(lines);
     linesRef.current = sampleLines;
     setLines(sampleLines);
   },[])
+
+  // Pattern Management
+  const mutateAll = () => {
+    let ps = linesRef.current;
+    for (let p of ps) {
+      p.multiMutate(1);
+    }
+    linesRef.current = ps;
+    setLines(ps);
+  }
 
   // Sequencer
   let loopA;
@@ -44,6 +52,7 @@ const PatternProvider = (props) => {
       }
       i = ((i + 1) % 16);
       setPosition(i);
+      if (i === 0) { mutateAll()}
     }, "8n").start(0);
 
     Tone.Transport.start();

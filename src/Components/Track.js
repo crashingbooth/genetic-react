@@ -13,7 +13,6 @@ export default function Track({lineNumber}) {
 
   return (
     <div className='single-track-wrapper'>
-      <MuteButton lineNumber={lineNumber} />
       <div className="spacer"/>
       <div className="v-line"/>
       <div className="spacer"/>
