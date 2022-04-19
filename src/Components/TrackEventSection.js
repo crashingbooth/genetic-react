@@ -8,20 +8,20 @@ function TrackEventSection(props) {
   const [pattern, setPattern] = useState([]);
 
   useEffect(() => {
-    const line = lines[props.lineNumber].pattern;
+    const line = lines[props.lineNumber];
     setPattern(line);
+    console.log("EVENT SECTION", pattern.phrase);
   },[lines]);
 
   return (
     <>
       <div className="event-section-wrapper">
-        {pattern.map((beat, index) => (
+        {pattern.phrase.flat().map((beat, index) => (
           <Dot
             active={beat}
             key={index}
             id={index}
             lineNumber={props.lineNumber}
-            isMute={lines[props.lineNumber].muteStatus}
           />
         ))}
       </div>

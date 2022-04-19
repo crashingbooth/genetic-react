@@ -1,7 +1,7 @@
 class Pattern {
   constructor(numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
-    this.samples = this.chooseSamples(length);
+    this.samples = this.chooseSamples(numBeats);
   }
 
   generateBasic(beats) {
@@ -18,7 +18,7 @@ class Pattern {
     for (let i = 0; i < beats; i++) {
       let beat = [];
       for (let j = 0; j < 4; j++) {
-        beat.push(Math.floor(Math.random() * 100);
+        beat.push(Math.floor(Math.random() * 100));
       }
       samples.push(beat);
     }

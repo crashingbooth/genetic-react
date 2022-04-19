@@ -5,7 +5,6 @@ import Transport from './Transport';
 import {patternContext} from '../Providers/patternContext';
 
 function App() {
-  console.log("app rerender");
   const { lines } = useContext(patternContext);
 
   return (
@@ -13,7 +12,7 @@ function App() {
       <div className="body-wrapper">
         <Transport/>
         <div className="track-section section-wrapper">
-          {lines.map((line, i) => <Track lineNumber={i} key={i}/>)}
+          {lines.map((line, i) => <Track lineNumber={i} key={i}/>)} 
         </div>
       </div>
     </>
