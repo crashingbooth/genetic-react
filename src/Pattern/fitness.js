@@ -117,6 +117,34 @@ function sortByEvaluation(candidates, evaluators) {
   return sortedCandidates;
 }
 
+function takeHalf(sortedCandidates) {
+  return sortedCandidates.slice(0,sortedCandidates.length / 2)
+}
+
+function breed(sortedCandidates, numberOfMutations) {
+  let kids = [];
+  sortedCandidates.forEach((candidate, i) => {
+    let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
+    if (mateIndex >= i) { mateIndex += 1}
+    let kid = candidate.breed(sortedCandidates[mateIndex]);
+    kid.multiMutate(numberOfMutations);
+    kids.push(kid);
+  });
+  let res = sortedCandidates.concat(kids);
+  return res;
+}
+
+function generationProcedure(candidates, evaluators, numberOfMutations) {
+  const sorted = sortByEvaluation(candidates, evaluators);
+  const survivors = takeHalf(sorted);
+  const nextGen = breed(survivors, numberOfMutations);
+  return nextGen;
+}
+
+function sampleGenerate(candidates) {
+  return generationProcedure(candidates, roleBasedEvaluation, 2);
+}
+
 module.exports  = { matchSingleChromosome,
                     rewardSingleCorrectChomosome,
                     punishSingleWrongChromosome,
@@ -127,5 +155,6 @@ module.exports  = { matchSingleChromosome,
                     evaluateDensity,
                     evaluate, // public
                     roleBasedEvaluation, // public
-                    sortByEvaluation
+                    sortByEvaluation,
+                    sampleGenerate, // public
                   };

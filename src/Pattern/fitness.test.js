@@ -2,7 +2,7 @@ const { matchSingleChromosome,
                     rewardSingleCorrectChomosome,
                     punishSingleWrongChromosome, evaluateSequencePositive, evaluateSequenceNegative, evaluateRolePositive,
                     evaluateRoleNegative, evaluate, evaluateDensity,
-                    roleBasedEvaluation, sortByEvaluation} = require('./fitness.js');
+                    roleBasedEvaluation, sortByEvaluation, sampleGenerate} = require('./fitness.js');
 const {LoPat, MidPat, HiPat} = require('./pattern-types.js');
 
 test('all match returns 1', () => {
@@ -228,3 +228,18 @@ test('sorts by evaluated scores', () => {
   expect(sorted[1].showPhrase()).toBe(p2.showPhrase());
   expect(sorted[3].showPhrase()).toBe(p1.showPhrase());
 });
+
+test('can breed', () => {
+  const p1 = new LoPat();
+  p1.setPhrase('---- ---- ---- x---');
+  const p2 = new LoPat();
+  p2.setPhrase('x--- x--- ---- x---');
+  const p3 = new LoPat();
+  p3.setPhrase('---- x--- ---- x---');
+  const p4 = new LoPat();
+  p4.setPhrase('x--- x--- x--- x---');
+  const arr = [p1,p2,p3,p4];
+
+  let nextGen = sampleGenerate(arr);
+  expect(nextGen.length).toBe(4);
+})

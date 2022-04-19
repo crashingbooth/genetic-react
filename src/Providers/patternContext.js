@@ -4,11 +4,17 @@ import { positionContext } from '../Providers/positionContext';
 import { audioResources, sampler, resourceFromID } from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern } from "../Pattern/pattern";
+import { sampleGenerate } from "../Pattern/fitness";
+import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = [new Pattern(), new Pattern(), new Pattern()];
+  const sampleLines = [new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat() ,new LoPat()];
+  sampleLines.forEach((item, i) => {
+    item.setPhrase('x--- ---- ---- ----');
+  });
+
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -26,11 +32,9 @@ const PatternProvider = (props) => {
   // Pattern Management
   const mutateAll = () => {
     let ps = linesRef.current;
-    for (let p of ps) {
-      p.multiMutate(1);
-    }
-    linesRef.current = ps;
-    setLines(ps);
+    const nextGen = sampleGenerate(ps);
+    linesRef.current = nextGen;
+    setLines(nextGen);
   }
 
   // Sequencer
@@ -52,7 +56,7 @@ const PatternProvider = (props) => {
       }
       i = ((i + 1) % 16);
       setPosition(i);
-      if (i === 0) { mutateAll()}
+      if (i === 0) { mutateAll() }
     }, "8n").start(0);
 
     Tone.Transport.start();
