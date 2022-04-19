@@ -25,9 +25,6 @@ function Transport() {
       <input type='file' id='file' ref={inputFile} onChange={inputFileChanged} style={{display: 'none'}}/>
       <button className="transport-button" onClick={selectFile}>Load Lines</button>
       <button className="transport-button" onClick={inputFileChanged}>Log File</button>
-      <button className="transport-button" onClick={addTrack}>Add Track</button>
-      <button className="transport-button" disabled={!canUndo} onClick={undo}>Undo</button>
-      <button className="transport-button" disabled={!canRedo} onClick={redo}>Redo</button>
       <TempoStepper/>
     </div>
   )

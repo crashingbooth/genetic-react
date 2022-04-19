@@ -8,7 +8,6 @@ function MuteButton(props) {
 
   useEffect(() => {
     setIsMute(lines[props.lineNumber].muteStatus);
-    console.log("set is mute called")
   }, [lines])
 
   const muteTrack = () => {
