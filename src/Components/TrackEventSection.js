@@ -8,7 +8,7 @@ function TrackEventSection(props) {
   const [pattern, setPattern] = useState([]);
 
   useEffect(() => {
-    const line = lines[props.lineNumber];
+    const line = lines["lo"][props.lineNumber];
     setPattern(line);
   },[lines]);
 

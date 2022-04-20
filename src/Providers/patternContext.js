@@ -10,9 +10,11 @@ import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = [new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat() ,new LoPat()];
-  sampleLines.forEach((item, i) => {
-    item.setPhrase('x--- ---- ---- ----');
+  const sampleLines = {lo : [new MidPat(), new HiPat(), new LoPat(), new LoPat(), new LoPat() ,new LoPat(), new LoPat(), new LoPat()]};
+  Object.values(sampleLines).forEach((section) => {
+    section.forEach((item) => {
+      item.setPhrase('---- ---- ---- ----');
+    });
   });
 
 
@@ -31,10 +33,12 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateAll = () => {
-    let ps = linesRef.current;
-    const nextGen = sampleGenerate(ps);
-    linesRef.current = nextGen;
-    setLines(nextGen);
+     Object.values(linesRef.current).forEach((section) => {
+       let ps = section;
+       const nextGen = sampleGenerate(ps);
+       linesRef.current = {lo:nextGen};
+       setLines({lo:nextGen});
+     });
   }
 
   // Sequencer
@@ -46,14 +50,17 @@ const PatternProvider = (props) => {
     Tone.start()
     let i = pos;
     loopA = new Tone.Loop((time) => {
-      for (let pattern of linesRef.current) {
-        if (i >= 0 && pattern.phrase.flat()[i]) {
-          const sampleID = pattern.samples.flat()[i];
-          let sample = resourceFromID(sampleID);
-          sampler.triggerAttackRelease(sample.note, "16n", time);
-          console.log("play");
+      Object.values(linesRef.current).forEach((section) => {
+        for (let pattern of section) {
+          if (i >= 0 && pattern.phrase.flat()[i]) {
+            const sampleID = pattern.samples.flat()[i];
+            let sample = resourceFromID(sampleID);
+            sampler.triggerAttackRelease(sample.note, "16n", time);
+            console.log("play");
+          }
         }
-      }
+      });
+
       i = ((i + 1) % 16);
       setPosition(i);
       if (i === 0) { mutateAll() }

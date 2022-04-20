@@ -142,7 +142,7 @@ function generationProcedure(candidates, evaluators, numberOfMutations) {
 }
 
 function sampleGenerate(candidates) {
-  return generationProcedure(candidates, roleBasedEvaluation, 2);
+  return generationProcedure(candidates, roleBasedEvaluation, 1);
 }
 
 module.exports  = { matchSingleChromosome,

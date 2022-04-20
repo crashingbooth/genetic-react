@@ -4,32 +4,26 @@ const resourceBaseUrl = "https://raw.githubusercontent.com/crashingbooth/simple-
 const resources = {
   kick1: {
     filename: "lo/001.wav",
-    displayName: "kick 1",
     note: "C3"
   },
   kick2: {
     filename: "lo/002.wav",
-    displayName: "kick 2",
     note: "D3"
   },
   hh1: {
     filename: "lo/003.wav",
-    displayName: "hh 1",
     note: "E3"
   },
   rim1: {
     filename: "lo/004.wav",
-    displayName: "rim 1",
     note: "F3"
   },
   tom1: {
     filename: "lo/005.wav",
-    displayName: "tom 1",
     note: "G3"
   },
   snare1: {
     filename: "lo/006.wav",
-    displayName:  "snare 1",
     note: "A3"
   }
 }

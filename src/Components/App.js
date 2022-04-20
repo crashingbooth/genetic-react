@@ -12,7 +12,7 @@ function App() {
       <div className="body-wrapper">
         <Transport/>
         <div className="track-section section-wrapper">
-          {lines.map((line, i) => <Track lineNumber={i} key={i}/>)} 
+          {lines["lo"].map((line, i) => <Track lineNumber={i} key={i}/>)} 
         </div>
       </div>
     </>
