@@ -6,13 +6,18 @@ import {patternContext} from '../Providers/patternContext';
 
 function App() {
   const { lines } = useContext(patternContext);
-
+  //   { lines["hi"].map((line, i) => <Track lineNumber={i} sectionType="hi"  key={i}/>) }
+  // { lines["mid"].map((line, i) => <Track lineNumber={i} sectionType="mid"  key={i}/>) }
   return (
     <>
       <div className="body-wrapper">
         <Transport/>
         <div className="track-section section-wrapper">
-          {lines["lo"].map((line, i) => <Track lineNumber={i} key={i}/>)} 
+          { lines["hi"].map((line, i) => <Track lineNumber={i} sectionType="hi"  key={i}/>) }
+          <br/>
+          { lines["mid"].map((line, i) => <Track lineNumber={i} sectionType="mid"  key={i}/>) }
+          <br/>
+          { lines["lo"].map((line, i) => <Track lineNumber={i} sectionType="lo"  key={i}/>) }
         </div>
       </div>
     </>

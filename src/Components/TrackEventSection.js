@@ -1,16 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Dot from './Dot';
+import {positionContext} from '../Providers/positionContext';
 import { patternContext } from "../Providers/patternContext";
 import "../Styles/Track.css";
 
-function TrackEventSection(props) {
+function TrackEventSection({lineNumber, sectionType}) {
   const { lines } = useContext(patternContext);
+  const { pos } = useContext(positionContext);
   const [pattern, setPattern] = useState([]);
 
   useEffect(() => {
-    const line = lines["lo"][props.lineNumber];
+    const line = lines[sectionType][lineNumber];
     setPattern(line);
-  },[lines]);
+  },[lines, pos]);
 
   return (
     <>
@@ -20,7 +22,8 @@ function TrackEventSection(props) {
             active={beat}
             key={index}
             id={index}
-            lineNumber={props.lineNumber}
+            lineNumber={lineNumber}
+            sectionType={sectionType}
           />
         ))}
       </div>

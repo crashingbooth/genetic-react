@@ -8,7 +8,7 @@ import { patternContext } from "../Providers/patternContext";
 import '../Styles/Track.css';
 import { resourceNames, resourceFromName } from "../audioUrls";
 
-export default function Track({lineNumber}) {
+export default function Track({lineNumber, sectionType}) {
   const { lines } = useContext(patternContext);
 
   return (
@@ -17,9 +17,9 @@ export default function Track({lineNumber}) {
       <div className="v-line"/>
       <div className="spacer"/>
       <div className="label-area">
-        <p>{`${lines["lo"][lineNumber].id} ${lines["lo"][lineNumber].ancestors[0]}-${lines["lo"][lineNumber].ancestors[1]}`}</p>
+        <p>{`${lines[sectionType][lineNumber].id} ${lines[sectionType][lineNumber].ancestors[0]}-${lines[sectionType][lineNumber].ancestors[1]} ${sectionType}`}</p>
       </div>
-      <TrackEventSection lineNumber={lineNumber}/>
+      <TrackEventSection lineNumber={lineNumber} sectionType={sectionType}/>
     </div>
   )
 }

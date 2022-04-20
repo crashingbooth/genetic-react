@@ -10,10 +10,13 @@ import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = {lo : [new MidPat(), new HiPat(), new LoPat(), new LoPat(), new LoPat() ,new LoPat(), new LoPat(), new LoPat()]};
+  const sampleLines = { lo : [new LoPat(), new LoPat(), new LoPat(), new LoPat()],
+                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat()],
+                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat()]
+                      };
   Object.values(sampleLines).forEach((section) => {
     section.forEach((item) => {
-      item.setPhrase('---- ---- ---- ----');
+      item.setPhrase('x--- ---- ---- ----');
     });
   });
 
@@ -33,12 +36,14 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateAll = () => {
-     Object.values(linesRef.current).forEach((section) => {
-       let ps = section;
+    console.log( linesRef.current);
+     Object.keys(linesRef.current).forEach((sectionType) => {
+       let ps = linesRef.current[sectionType];
+       console.log(sectionType);
        const nextGen = sampleGenerate(ps);
-       linesRef.current = {lo:nextGen};
-       setLines({lo:nextGen});
+       linesRef.current[sectionType] = nextGen;
      });
+     setLines(linesRef.current);
   }
 
   // Sequencer
