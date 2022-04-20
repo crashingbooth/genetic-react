@@ -16,6 +16,9 @@ export default function Track({lineNumber}) {
       <div className="spacer"/>
       <div className="v-line"/>
       <div className="spacer"/>
+      <div className="label-area">
+        <p>{`${lines[lineNumber].id} ${lines[lineNumber].ancestors[0]}-${lines[lineNumber].ancestors[1]}`}</p>
+      </div>
       <TrackEventSection lineNumber={lineNumber}/>
     </div>
   )

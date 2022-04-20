@@ -2,6 +2,8 @@ class Pattern {
   constructor(numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
     this.samples = this.chooseSamples(numBeats);
+    this.id = Math.floor(Math.random() * 1000);
+    this.ancestors = [0,0];
   }
 
   generateBasic(beats) {
@@ -64,6 +66,8 @@ class Pattern {
 
   breed(other) {
     let child = new Pattern();
+    child.type = this.type;
+    child.ancestors = [this.id, other.id];
     let childPhrase = [];
     let childSamples = [];
     for (let i = 0; i < this.phrase.length; i++) {
