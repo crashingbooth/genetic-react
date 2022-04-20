@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect, useRef } from "react";
 import { positionContext } from '../Providers/positionContext';
-import { audioResources, sampler, resourceFromID } from "../audioUrls";
+import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern } from "../Pattern/pattern";
 import { sampleGenerate } from "../Pattern/fitness";
@@ -10,7 +10,7 @@ import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = { lo : [new LoPat(), new LoPat(), new LoPat(), new LoPat()],
+  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat()],
                        mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat()],
                         hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat()]
                       };
@@ -30,6 +30,7 @@ const PatternProvider = (props) => {
   const [bpm, setBpm] = useState(120);
 
   useEffect(() => {
+    console.log("POOL", pool);
     linesRef.current = sampleLines;
     setLines(sampleLines);
   },[])
@@ -39,7 +40,6 @@ const PatternProvider = (props) => {
     console.log( linesRef.current);
      Object.keys(linesRef.current).forEach((sectionType) => {
        let ps = linesRef.current[sectionType];
-       console.log(sectionType);
        const nextGen = sampleGenerate(ps);
        linesRef.current[sectionType] = nextGen;
      });
@@ -59,8 +59,8 @@ const PatternProvider = (props) => {
         for (let pattern of section) {
           if (i >= 0 && pattern.phrase.flat()[i]) {
             const sampleID = pattern.samples.flat()[i];
-            let sample = resourceFromID(sampleID);
-            sampler.triggerAttackRelease(sample.note, "16n", time);
+            let note = pool[pattern.type][sampleID % pool[pattern.type].length];
+            sampler.triggerAttackRelease(note, "16n", time);
             console.log("play");
           }
         }
