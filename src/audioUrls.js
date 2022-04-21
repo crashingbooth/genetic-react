@@ -16,6 +16,7 @@ const createSamplerWithResources = () => {
   });
 
   const vol = new Tone.Volume(-12).toDestination();
+  // const reverb = new Tone.Reverb(0.5).connect(vol);
 
   const samp =  new Tone.Sampler({
     urls: result,

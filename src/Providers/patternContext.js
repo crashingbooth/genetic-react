@@ -10,9 +10,12 @@ import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat()],
-                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat()],
-                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat()]
+  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat()],
+                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat()],
+                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat()]
+  // const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat()],
+  //                      mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat()],
+  //                       hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat()]
                       };
   Object.values(sampleLines).forEach((section) => {
     section.forEach((item) => {
@@ -55,13 +58,13 @@ const PatternProvider = (props) => {
     let i = pos;
     loopA = new Tone.Loop((time) => {
       Object.values(linesRef.current).forEach((section) => {
-        for (let pattern of section) {
-          if (i >= 0 && pattern.phrase.flat()[i]) {
+        section.forEach((pattern, j) => {
+          if ( (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
             let note = pool[pattern.type][sampleID % pool[pattern.type].length];
             sampler.triggerAttackRelease(note, "16n", time);
           }
-        }
+        });
       });
 
       i = ((i + 1) % 16);
