@@ -10,13 +10,13 @@ import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat()],
-                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat()],
-                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat()]
+  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat()],
+                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat()],
+                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat()]
                       };
   Object.values(sampleLines).forEach((section) => {
     section.forEach((item) => {
-      item.setPhrase('x--- ---- ---- ----');
+      item.setPhrase('---- ---- ---- ----');
     });
   });
 
@@ -27,7 +27,7 @@ const PatternProvider = (props) => {
   const {pos, setPosition} = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
-  const [bpm, setBpm] = useState(120);
+  const [bpm, setBpm] = useState(140);
 
   useEffect(() => {
     console.log("POOL", pool);
@@ -37,7 +37,6 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateAll = () => {
-    console.log( linesRef.current);
      Object.keys(linesRef.current).forEach((sectionType) => {
        let ps = linesRef.current[sectionType];
        const nextGen = sampleGenerate(ps);
@@ -61,7 +60,6 @@ const PatternProvider = (props) => {
             const sampleID = pattern.samples.flat()[i];
             let note = pool[pattern.type][sampleID % pool[pattern.type].length];
             sampler.triggerAttackRelease(note, "16n", time);
-            console.log("play");
           }
         }
       });

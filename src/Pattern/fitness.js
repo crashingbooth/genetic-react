@@ -1,4 +1,5 @@
 const {LoPat, MidPat, HiPat} = require('./pattern-types.js');
+const {coin} = require('./pattern.js');
 
 function matchSingleChromosome(target, subject) {
   let score = 0;
@@ -127,6 +128,7 @@ function breed(sortedCandidates, numberOfMutations) {
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
     let kid = candidate.breed(sortedCandidates[mateIndex]);
+    if (coin()) candidate.multiMutate(numberOfMutations);
     kid.multiMutate(numberOfMutations);
     kids.push(kid);
   });
@@ -142,7 +144,7 @@ function generationProcedure(candidates, evaluators, numberOfMutations) {
 }
 
 function sampleGenerate(candidates) {
-  return generationProcedure(candidates, roleBasedEvaluation, 1);
+  return generationProcedure(candidates, roleBasedEvaluation, 2);
 }
 
 module.exports  = { matchSingleChromosome,
