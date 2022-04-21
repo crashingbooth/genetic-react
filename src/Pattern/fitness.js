@@ -128,8 +128,8 @@ function breed(sortedCandidates, numberOfMutations) {
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
     let kid = candidate.breed(sortedCandidates[mateIndex]);
-    if (coin()) candidate.multiMutate(numberOfMutations);
-    kid.multiMutate(numberOfMutations);
+    candidate.multiMutate(numberOfMutations, ["phrase", "sample"]);
+    kid.multiMutate(numberOfMutations,["phrase", "sample"]);
     kids.push(kid);
   });
   let res = sortedCandidates.concat(kids);

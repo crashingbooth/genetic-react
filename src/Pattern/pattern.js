@@ -52,15 +52,20 @@ class Pattern {
     console.log(this.showPhrase());
   }
 
-  mutate() {
+  mutate(type) {
     const beat = Math.floor(Math.random() * this.phrase.length);
     const tick = Math.floor(Math.random() * 4);
-    this.phrase[beat][tick] = !this.phrase[beat][tick];
+    if (type.includes("phrase")) {
+      this.phrase[beat][tick] = !this.phrase[beat][tick];
+    }
+    if (type.includes("sample")) {
+      this.samples[beat][tick] = (Math.floor(Math.random() * 100));
+    }
   }
 
-  multiMutate(reps) {
+  multiMutate(reps, type) {
     for (let i = 0; i < reps; i++) {
-      this.mutate();
+      this.mutate(type);
     }
   }
 
