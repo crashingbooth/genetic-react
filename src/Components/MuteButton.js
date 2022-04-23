@@ -2,17 +2,16 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import {patternContext} from '../Providers/patternContext';
 import '../Styles/styles.css';
 
-function MuteButton(props) {
-  const {lines, toggleMuteForLine } = useContext(patternContext);
-  const [isMute, setIsMute] = useState(lines[props.lineNumber].muteStatus);
+function MuteButton({section, lineNumber}) {
+  const {lines, toggleMute } = useContext(patternContext);
+  const [isMute, setIsMute] = useState(lines[section][lineNumber].mute);
 
   useEffect(() => {
-    setIsMute(lines[props.lineNumber].muteStatus);
+    setIsMute(lines[section][lineNumber].mute);
   }, [lines])
 
   const muteTrack = () => {
-    console.log('tapped mute');
-    toggleMuteForLine(props.lineNumber);
+    toggleMute(section, lineNumber);
   };
 
 

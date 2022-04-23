@@ -92,6 +92,11 @@ const PatternProvider = (props) => {
     writePatternToJSON(lines, bpm);
   }
 
+  const toggleMute = (section, lineNumber) => {
+    linesRef.current[section][lineNumber].mute = !linesRef.current[section][lineNumber].mute;
+    setLines({...linesRef.current});
+  }
+
   // const loadPatterns = file => {
   //   const fileReader = new FileReader();
   //   fileReader.readAsText(file, "UTF-8");
@@ -113,7 +118,8 @@ const PatternProvider = (props) => {
     stop,
     bpm,
     changeBPM,
-    playing
+    playing,
+    toggleMute,
   };
 
   return (

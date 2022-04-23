@@ -6,8 +6,6 @@ import {patternContext} from '../Providers/patternContext';
 
 function App() {
   const { lines } = useContext(patternContext);
-  //   { lines["hi"].map((line, i) => <Track lineNumber={i} sectionType="hi"  key={i}/>) }
-  // { lines["mid"].map((line, i) => <Track lineNumber={i} sectionType="mid"  key={i}/>) }
   return (
     <>
       <div className="body-wrapper">
