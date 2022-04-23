@@ -52,7 +52,7 @@ const PatternProvider = (props) => {
       Object.values(linesRef.current).forEach((section) => {
         section.forEach((patternPair, j) => {
           let pattern = patternPair.pattern;
-          if ( (i >= 0 && pattern.phrase.flat()[i])) {
+          if ( !patternPair.mute && (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
             let note = pool[pattern.type][sampleID % pool[pattern.type].length];
             sampler.triggerAttackRelease(note, "16n", time);
