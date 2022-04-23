@@ -10,7 +10,7 @@ function TrackEventSection({lineNumber, sectionType}) {
   const [pattern, setPattern] = useState([]);
 
   useEffect(() => {
-    const line = lines[sectionType][lineNumber];
+    const line = lines[sectionType][lineNumber].pattern;
     setPattern(line);
   },[lines, pos]);
 

@@ -3,27 +3,15 @@ import React, { useState, useContext, createContext, useEffect, useRef } from "r
 import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
-import { Pattern } from "../Pattern/pattern";
+import { Pattern, factory } from "../Pattern/pattern";
 import { sampleGenerate } from "../Pattern/fitness";
 import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat()],
-                       mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat()],
-                        hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat()]
-  // const sampleLines = { lo : [new LoPat() , new LoPat(), new LoPat(), new LoPat(), new LoPat(), new LoPat()],
-  //                      mid : [new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat(), new MidPat()],
-  //                       hi : [new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat(), new HiPat()]
-                      };
-  Object.values(sampleLines).forEach((section) => {
-    section.forEach((item) => {
-      item.setPhrase('---- ---- ---- ----');
-    });
-  });
 
-
+  let sampleLines = factory(4);
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
@@ -33,7 +21,6 @@ const PatternProvider = (props) => {
   const [bpm, setBpm] = useState(140);
 
   useEffect(() => {
-    console.log("POOL", pool);
     linesRef.current = sampleLines;
     setLines(sampleLines);
   },[])
@@ -41,9 +28,14 @@ const PatternProvider = (props) => {
   // Pattern Management
   const mutateAll = () => {
      Object.keys(linesRef.current).forEach((sectionType) => {
-       let ps = linesRef.current[sectionType];
+       let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
+       let ps = vals.map(item => item.pattern);
        const nextGen = sampleGenerate(ps);
-       linesRef.current[sectionType] = nextGen;
+       nextGen.forEach((p, i) => {
+          vals[i].pattern = p
+       });
+
+       linesRef.current[sectionType] = vals;
      });
      setLines(linesRef.current);
   }
@@ -58,7 +50,8 @@ const PatternProvider = (props) => {
     let i = pos;
     loopA = new Tone.Loop((time) => {
       Object.values(linesRef.current).forEach((section) => {
-        section.forEach((pattern, j) => {
+        section.forEach((patternPair, j) => {
+          let pattern = patternPair.pattern;
           if ( (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
             let note = pool[pattern.type][sampleID % pool[pattern.type].length];

@@ -1,9 +1,10 @@
 class Pattern {
-  constructor(numBeats = 4) {
+  constructor(type = "lo", numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
     this.samples = this.chooseSamples(numBeats);
     this.id = Math.floor(Math.random() * 1000);
     this.ancestors = [0,0];
+    this.type = type;
   }
 
   generateBasic(beats) {
@@ -90,4 +91,19 @@ function coin() {
   return Math.random() > 0.5;
 }
 
-module.exports = {Pattern, coin};
+function factory(numberOfEach) {
+  let pools = {};
+  const sections = ["lo", "mid", "hi"];
+  sections.forEach(section => {
+    let sectionArr = [];
+    for (let i = 0; i < numberOfEach; i++) {
+      let pat = new Pattern(section);
+      pat.setPhrase('---- ---- ---- ----');
+      sectionArr.push({mute: false, pattern: pat})
+    }
+    pools[section] = sectionArr;
+  });
+  return pools;
+}
+
+module.exports = {Pattern, coin, factory};
