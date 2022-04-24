@@ -12,9 +12,7 @@ function App() {
         <Transport/>
         <div className="track-section section-wrapper">
           <Section sectionType="hi"/>
-          <br/>
           <Section sectionType="mid"/>
-          <br/>
           <Section sectionType="lo"/>
         </div>
       </div>

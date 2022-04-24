@@ -37,3 +37,17 @@
 .highlighted-dot {
     background-color: blue;
 }
+
+.section-wrapper-single {
+  display: flex;
+    align-items: center;
+}
+
+.section-controls {
+  flex-direction: column;
+}
+
+.section-controls h1{
+  font-size: 1em;
+  padding-left: 0.5em;
+}
