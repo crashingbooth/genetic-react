@@ -158,5 +158,6 @@ module.exports  = { matchSingleChromosome,
                     evaluate, // public
                     roleBasedEvaluation, // public
                     sortByEvaluation,
+                    generationProcedure, // public
                     sampleGenerate, // public
                   };

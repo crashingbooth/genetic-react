@@ -4,8 +4,8 @@ import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern, factory } from "../Pattern/pattern";
-import { sampleGenerate } from "../Pattern/fitness";
-import { LoPat, MidPat, HiPat } from "../Pattern/pattern-types";
+import { generationProcedure } from "../Pattern/fitness";
+import { createBasicFitnessConditions } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
 
@@ -18,9 +18,11 @@ const PatternProvider = (props) => {
   const {pos, setPosition} = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
+  const systemRulesRef = useRef();
   const [bpm, setBpm] = useState(140);
 
   useEffect(() => {
+    systemRulesRef.current = createBasicFitnessConditions();
     linesRef.current = sampleLines;
     setLines(sampleLines);
   },[])
@@ -30,7 +32,7 @@ const PatternProvider = (props) => {
      Object.keys(linesRef.current).forEach((sectionType) => {
        let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
        let ps = vals.map(item => item.pattern);
-       const nextGen = sampleGenerate(ps);
+       const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1);
        nextGen.forEach((p, i) => {
           vals[i].pattern = p
        });

@@ -35,12 +35,12 @@
 }
 
 .highlighted-dot {
-    background-color: blue;
+  background-color: blue;
 }
 
 .section-wrapper-single {
   display: flex;
-    align-items: center;
+  align-items: center;
 }
 
 .section-controls {
