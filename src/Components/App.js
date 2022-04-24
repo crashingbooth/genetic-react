@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import '../Styles/Dot.css';
-import Track from './Track';
+import Section from './Section';
 import Transport from './Transport';
 import {patternContext} from '../Providers/patternContext';
 
@@ -11,11 +11,11 @@ function App() {
       <div className="body-wrapper">
         <Transport/>
         <div className="track-section section-wrapper">
-          { lines["hi"].map((line, i) => <Track lineNumber={i} sectionType="hi"  key={i}/>) }
+          <Section sectionType="hi"/>
           <br/>
-          { lines["mid"].map((line, i) => <Track lineNumber={i} sectionType="mid"  key={i}/>) }
+          <Section sectionType="mid"/>
           <br/>
-          { lines["lo"].map((line, i) => <Track lineNumber={i} sectionType="lo"  key={i}/>) }
+          <Section sectionType="lo"/>
         </div>
       </div>
     </>
