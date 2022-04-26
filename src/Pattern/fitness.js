@@ -98,10 +98,12 @@ function evaluate(evaluators, seq) {
 
 const roleBasedEvaluation = [
   {
+    description: "role-positive",
     fitnessFunction: evaluateRolePositive,
     weight: 1
   },
   {
+    description: "role-negative",
     fitnessFunction: evaluateRoleNegative,
     weight: 1
   }
@@ -158,6 +160,6 @@ module.exports  = { matchSingleChromosome,
                     evaluate, // public
                     roleBasedEvaluation, // public
                     sortByEvaluation,
-                    generationProcedure, // public
+                    generationProcedure,
                     sampleGenerate, // public
                   };

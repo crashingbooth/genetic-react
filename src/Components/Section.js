@@ -10,7 +10,8 @@ function Section({sectionType}) {
 
 
     const movedSlider = (newVal) => {
-      const newLevel =  (-50) + (newVal/2);
+      const rounded = Math.round((newVal/100)*16);
+      console.log(rounded);
       // changeVolume(lineNumber, newLevel);
     }
 
