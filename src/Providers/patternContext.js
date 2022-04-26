@@ -5,7 +5,7 @@ import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern, factory } from "../Pattern/pattern";
 import { generationProcedure } from "../Pattern/fitness";
-import { createBasicFitnessConditions } from "../Pattern/systemRules";
+import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
 
@@ -83,6 +83,13 @@ const PatternProvider = (props) => {
     setBpm(newTempo)
   }
 
+  // Rules/fitnes
+  const changeDensity = (value, section) => {
+    let rules = systemRulesRef.current;
+    rules = setDensity(section, value, rules);
+    systemRulesRef.current = rules;
+  }
+
 
   // Patterns
   const logLines = () => {
@@ -122,6 +129,7 @@ const PatternProvider = (props) => {
     changeBPM,
     playing,
     toggleMute,
+    changeDensity,
   };
 
   return (

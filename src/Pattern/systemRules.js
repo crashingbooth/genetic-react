@@ -29,6 +29,7 @@ const setDensity = (section, value, conditions) => {
     }
   }
   conditions[section] = rules;
+  return conditions;
 }
 
 const curryDensity = ratio => {
@@ -37,4 +38,5 @@ const curryDensity = ratio => {
   })
  }
 
-module.exports = {createBasicFitnessConditions}
+module.exports = {createBasicFitnessConditions,
+                  setDensity}

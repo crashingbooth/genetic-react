@@ -1,18 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Track from './Track';
 import ReactSlider from "react-slider";
-import { patternContext } from "../Providers/patternContext";
+import { patternContext} from "../Providers/patternContext";
 import "../Styles/Track.css";
 
 function Section({sectionType}) {
-    const { lines } = useContext(patternContext);
+    const { lines,  changeDensity  } = useContext(patternContext);
     const sectionLines = lines[sectionType].map(i => i.pattern);
 
 
     const movedSlider = (newVal) => {
-      const rounded = Math.round((newVal/100)*16);
-      console.log(rounded);
-      // changeVolume(lineNumber, newLevel);
+      changeDensity(newVal/100, sectionType);
+
     }
 
   return (
