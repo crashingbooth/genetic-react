@@ -5,16 +5,22 @@ such that it can be used in the mutate function, and so that it can be modified 
 const {roleBasedEvaluation, evaluateDensity} = require('./fitness.js');
 
 const createBasicFitnessConditions = () => {
+  // let conditions = {
+  //   lo: roleBasedEvaluation,
+  //   mid: roleBasedEvaluation,
+  //   hi: roleBasedEvaluation
+  // }
+
   let conditions = {
-    lo: roleBasedEvaluation,
-    mid: roleBasedEvaluation,
-    hi: roleBasedEvaluation
+    lo: [],
+    mid: [],
+    hi: []
   }
 
   Object.values(conditions).forEach(conditionList => {
     conditionList.push({
       description: "density",
-      fitnessFunction: curryDensity(0.25),
+      fitnessFunction: curryDensity(1),
       weight: 1
     })
   });
