@@ -124,24 +124,24 @@ function takeHalf(sortedCandidates) {
   return sortedCandidates.slice(0,sortedCandidates.length / 2)
 }
 
-function breed(sortedCandidates, numberOfMutations) {
+function breed(sortedCandidates, numParentMutations, numChildMutations) {
   let kids = [];
   sortedCandidates.forEach((candidate, i) => {
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
     let kid = candidate.breed(sortedCandidates[mateIndex]);
-    candidate.multiMutate(numberOfMutations, ["phrase", "sample"]);
-    kid.multiMutate(numberOfMutations,["phrase", "sample"]);
+    candidate.multiMutate(numParentMutations, ["phrase", "sample"]);
+    kid.multiMutate(numChildMutations,["phrase", "sample"]);
     kids.push(kid);
   });
   let res = sortedCandidates.concat(kids);
   return res;
 }
 
-function generationProcedure(candidates, evaluators, numberOfMutations) {
+function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
   const sorted = sortByEvaluation(candidates, evaluators);
   const survivors = takeHalf(sorted);
-  const nextGen = breed(survivors, numberOfMutations);
+  const nextGen = breed(survivors, numParentMutations, numChildMutations);
   return nextGen;
 }
 
