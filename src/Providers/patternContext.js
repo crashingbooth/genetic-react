@@ -11,7 +11,8 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  let sampleLines = factory(4);
+  // let sampleLines = factory(4,["lo", "mid", "hi"]);
+  let sampleLines = factory(4,["lo"]);
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
