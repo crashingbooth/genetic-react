@@ -94,9 +94,10 @@ function evaluate(evaluators, seq) {
   // const res = evaluators.reduce((prev, e) => {
   //   return prev + (e.fitnessFunction(seq) * e.weight);
   // }, 0);
+
   let res = 0;
   for (let i = 0; i < evaluators.length; i++)
-    res += evaluators[i].fitnessFunction(seq)
+    res += evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
     // res += evaluateRolePositive(seq);
     console.log(res);
   return res;
