@@ -11,9 +11,7 @@ function App() {
       <div className="body-wrapper">
         <Transport/>
         <div className="track-section section-wrapper">
-          <Section sectionType="hi"/>
-          <Section sectionType="mid"/>
-          <Section sectionType="lo"/>
+          {Object.keys(lines).map(section => <Section sectionType={section} key={section}/>) }
         </div>
       </div>
     </>

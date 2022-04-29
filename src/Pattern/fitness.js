@@ -91,20 +91,26 @@ function evaluate(evaluators, seq) {
   //    fitnessFunction: <function taking seq as arg>,
   //    weight: multiplier, only meaningful relative to other values
   // }]
-  return evaluators.reduce((prev, e) => {
-    return prev + (e.fitnessFunction(seq) * e.weight);
-  }, 0);
+  // const res = evaluators.reduce((prev, e) => {
+  //   return prev + (e.fitnessFunction(seq) * e.weight);
+  // }, 0);
+  let res = 0;
+  for (let i = 0; i < evaluators.length; i++)
+    res += evaluators[i].fitnessFunction(seq)
+    // res += evaluateRolePositive(seq);
+    console.log(res);
+  return res;
 }
 
 const roleBasedEvaluation = [
   {
     description: "role-positive",
-    fitnessFunction: evaluateRolePositive,
+    fitnessFunction: seq =>  evaluateRolePositive(seq),
     weight: 1
   },
   {
     description: "role-negative",
-    fitnessFunction: evaluateRoleNegative,
+    fitnessFunction: seq => evaluateRoleNegative(seq),
     weight: 1
   }
 ]
@@ -115,7 +121,9 @@ function sortByEvaluation(candidates, evaluators) {
   // returns [Pattern] sorted by evaluation score
 
   const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
+  // console.log(scores);
   const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
+  // console.log(sortedScores);
   const sortedCandidates = sortedScores.map(([cand, score]) => cand);
   return sortedCandidates;
 }
@@ -124,24 +132,24 @@ function takeHalf(sortedCandidates) {
   return sortedCandidates.slice(0,sortedCandidates.length / 2)
 }
 
-function breed(sortedCandidates, numberOfMutations) {
+function breed(sortedCandidates, numParentMutations, numChildMutations) {
   let kids = [];
   sortedCandidates.forEach((candidate, i) => {
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
     let kid = candidate.breed(sortedCandidates[mateIndex]);
-    candidate.multiMutate(numberOfMutations, ["phrase", "sample"]);
-    kid.multiMutate(numberOfMutations,["phrase", "sample"]);
+    candidate.multiMutate(numParentMutations, ["phrase", "sample"]);
+    kid.multiMutate(numChildMutations,["phrase", "sample"]);
     kids.push(kid);
   });
   let res = sortedCandidates.concat(kids);
   return res;
 }
 
-function generationProcedure(candidates, evaluators, numberOfMutations) {
+function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
   const sorted = sortByEvaluation(candidates, evaluators);
   const survivors = takeHalf(sorted);
-  const nextGen = breed(survivors, numberOfMutations);
+  const nextGen = breed(survivors, numParentMutations, numChildMutations);
   return nextGen;
 }
 

@@ -2,7 +2,7 @@
 such that it can be used in the mutate function, and so that it can be modified by the sliders in section
 */
 
-const {roleBasedEvaluation, evaluateDensity} = require('./fitness.js');
+const {roleBasedEvaluation, evaluateDensity ,evaluateRolePositive} = require('./fitness.js');
 
 const createBasicFitnessConditions = () => {
   let conditions = {
@@ -11,13 +11,21 @@ const createBasicFitnessConditions = () => {
     hi: roleBasedEvaluation
   }
 
-  Object.values(conditions).forEach(conditionList => {
-    conditionList.push({
-      description: "density",
-      fitnessFunction: curryDensity(0.25),
-      weight: 1
-    })
-  });
+  // let conditions = {
+  //   lo: [],
+  //   mid: [],
+  //   hi: []
+  // }
+
+  // Object.values(conditions).forEach(conditionList => {
+  //   conditionList.push({
+  //     description: "density",
+  //     // fitnessFunction: seq => evaluateDensity(1,seq),
+  //     fitnessFunction: seq => curryDensity(1, seq),
+  //     // fitnessFunction:  seq =>  evaluateRolePositive(seq),
+  //     weight: 1
+  //   })
+  // });
   return conditions
 }
 
@@ -32,7 +40,7 @@ const setDensity = (section, value, conditions) => {
   return conditions;
 }
 
-const curryDensity = ratio => {
+const curryDensity = (ratio, seq) => {
   return (seq => {
     evaluateDensity(ratio, seq)
   })

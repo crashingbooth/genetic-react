@@ -11,7 +11,8 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  let sampleLines = factory(4);
+  let sampleLines = factory(4,["lo", "mid", "hi"]);
+  // let sampleLines = factory(4,["lo"]);
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
@@ -32,7 +33,7 @@ const PatternProvider = (props) => {
      Object.keys(linesRef.current).forEach((sectionType) => {
        let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
        let ps = vals.map(item => item.pattern);
-       const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1);
+       const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
        nextGen.forEach((p, i) => {
           vals[i].pattern = p
        });

@@ -91,9 +91,8 @@ function coin() {
   return Math.random() > 0.5;
 }
 
-function factory(numberOfEach) {
+function factory(numberOfEach, sections) {
   let pools = {};
-  const sections = ["lo", "mid", "hi"];
   sections.forEach(section => {
     let sectionArr = [];
     for (let i = 0; i < numberOfEach; i++) {
