@@ -91,20 +91,26 @@ function evaluate(evaluators, seq) {
   //    fitnessFunction: <function taking seq as arg>,
   //    weight: multiplier, only meaningful relative to other values
   // }]
-  return evaluators.reduce((prev, e) => {
-    return prev + (e.fitnessFunction(seq) * e.weight);
-  }, 0);
+  // const res = evaluators.reduce((prev, e) => {
+  //   return prev + (e.fitnessFunction(seq) * e.weight);
+  // }, 0);
+  let res = 0;
+  for (let i = 0; i < evaluators.length; i++)
+    res += evaluators[i].fitnessFunction(seq)
+    // res += evaluateRolePositive(seq);
+    console.log(res);
+  return res;
 }
 
 const roleBasedEvaluation = [
   {
     description: "role-positive",
-    fitnessFunction: evaluateRolePositive,
+    fitnessFunction: seq =>  evaluateRolePositive(seq),
     weight: 1
   },
   {
     description: "role-negative",
-    fitnessFunction: evaluateRoleNegative,
+    fitnessFunction: seq => evaluateRoleNegative(seq),
     weight: 1
   }
 ]
@@ -115,7 +121,9 @@ function sortByEvaluation(candidates, evaluators) {
   // returns [Pattern] sorted by evaluation score
 
   const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
+  // console.log(scores);
   const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
+  // console.log(sortedScores);
   const sortedCandidates = sortedScores.map(([cand, score]) => cand);
   return sortedCandidates;
 }
