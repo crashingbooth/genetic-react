@@ -5,27 +5,27 @@ such that it can be used in the mutate function, and so that it can be modified 
 const {roleBasedEvaluation, evaluateDensity ,evaluateRolePositive} = require('./fitness.js');
 
 const createBasicFitnessConditions = () => {
-  let conditions = {
-    lo: roleBasedEvaluation,
-    mid: roleBasedEvaluation,
-    hi: roleBasedEvaluation
-  }
-
   // let conditions = {
-  //   lo: [],
-  //   mid: [],
-  //   hi: []
+  //   lo: roleBasedEvaluation,
+  //   mid: roleBasedEvaluation,
+  //   hi: roleBasedEvaluation
   // }
 
-  // Object.values(conditions).forEach(conditionList => {
-  //   conditionList.push({
-  //     description: "density",
-  //     // fitnessFunction: seq => evaluateDensity(1,seq),
-  //     fitnessFunction: seq => curryDensity(1, seq),
-  //     // fitnessFunction:  seq =>  evaluateRolePositive(seq),
-  //     weight: 1
-  //   })
-  // });
+  let conditions = {
+    lo: [],
+    mid: [],
+    hi: []
+  }
+
+  Object.values(conditions).forEach(conditionList => {
+    conditionList.push({
+      description: "density",
+      // fitnessFunction: seq => evaluateDensity(1,seq),
+      fitnessFunction: curryDensity(1),
+      // fitnessFunction:  seq =>  evaluateRolePositive(seq),
+      weight: 1
+    })
+  });
   return conditions
 }
 
@@ -40,10 +40,10 @@ const setDensity = (section, value, conditions) => {
   return conditions;
 }
 
-const curryDensity = (ratio, seq) => {
-  return (seq => {
+const curryDensity = ratio => {
+  return (seq =>
     evaluateDensity(ratio, seq)
-  })
+  )
  }
 
 module.exports = {createBasicFitnessConditions,
