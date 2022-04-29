@@ -11,12 +11,12 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  let sampleLines = factory(4,["lo", "mid", "hi"]);
+  let sampleLines = factory(4, ["hi", "mid", "lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
-  const {pos, setPosition} = useContext(positionContext);
+  const { pos, setPosition } = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
   const systemRulesRef = useRef();
@@ -25,6 +25,7 @@ const PatternProvider = (props) => {
   useEffect(() => {
     systemRulesRef.current = createBasicFitnessConditions();
     linesRef.current = sampleLines;
+    setBpm(140);
     setLines(sampleLines);
   },[])
 
@@ -89,6 +90,7 @@ const PatternProvider = (props) => {
     let rules = systemRulesRef.current;
     rules = setDensity(section, value, rules);
     systemRulesRef.current = rules;
+    console.log(value, section)
   }
 
 

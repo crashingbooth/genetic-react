@@ -120,9 +120,7 @@ function sortByEvaluation(candidates, evaluators) {
   // returns [Pattern] sorted by evaluation score
 
   const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
-  // console.log(scores);
   const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
-  // console.log(sortedScores);
   const sortedCandidates = sortedScores.map(([cand, score]) => cand);
   return sortedCandidates;
 }
