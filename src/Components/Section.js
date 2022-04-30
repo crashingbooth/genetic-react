@@ -16,7 +16,7 @@ function Section({sectionType}) {
           {sectionType!=="lo" && <hr/>}
         </div>
         <div className="section-controls">
-          <Parameter sectionType={sectionType}/>
+          <Parameter parameterName="density" sectionType={sectionType}/>
         </div>
       </div>
     </>
