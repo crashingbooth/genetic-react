@@ -10,7 +10,7 @@ import { resourceNames, resourceFromName } from "../audioUrls";
 
 export default function Track({lineNumber, sectionType}) {
   const { lines } = useContext(patternContext);
-
+        // <p>{`${lines[sectionType][lineNumber].pattern.id} ${lines[sectionType][lineNumber].pattern.ancestors[0]}-${lines[sectionType][lineNumber].pattern.ancestors[1]} ${sectionType}`}</p>
   return (
     <div className='single-track-wrapper'>
       <MuteButton section={sectionType} lineNumber={lineNumber}/>
@@ -18,7 +18,6 @@ export default function Track({lineNumber, sectionType}) {
       <div className="v-line"/>
       <div className="spacer"/>
       <div className="label-area">
-        <p>{`${lines[sectionType][lineNumber].pattern.id} ${lines[sectionType][lineNumber].pattern.ancestors[0]}-${lines[sectionType][lineNumber].pattern.ancestors[1]} ${sectionType}`}</p>
       </div>
       <TrackEventSection lineNumber={lineNumber} sectionType={sectionType}/>
     </div>

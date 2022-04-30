@@ -31,7 +31,7 @@
 
 
 .label-area {
-  width: 150px;
+  width: 1rem;
   display: flex;
   flex-direction: column;
   align-content: center;

@@ -10,11 +10,12 @@
   margin: 5px 0;
   border: 1px solid black;
   background-color: #eee;
-  display: inline-block;
+  display: inline-grid;
 }
 
 .body-wrapper {
-  display: block;
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .track-section {

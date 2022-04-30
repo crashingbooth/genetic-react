@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import ReactSlider from "react-slider";
+import ParameterValueSlider from "./ParameterValueSlider"
 import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
@@ -21,20 +21,8 @@ function Parameter({parameterName, sectionType, hasValue}) {
     <>
       <div className="parameter-section">
         <h1>{parameterName}</h1>
-        {hasValue && <p>value</p>}
-        {hasValue && <ReactSlider
-          className="horizontal-slider"
-          thumbClassName="example-thumb"
-          trackClassName="example-track"
-          onChange={movedValueSlider}
-        />}
-        <p>weight</p>
-        <ReactSlider
-          className="horizontal-slider"
-          thumbClassName="example-thumb"
-          trackClassName="example-track"
-          onChange={movedWeightSlider}
-        />
+        {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider}/>}
+        <ParameterValueSlider label="weight" movedSlider={movedWeightSlider}/>
       </div>
     </>
   )
