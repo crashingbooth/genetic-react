@@ -11,12 +11,13 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  let sampleLines = factory(4,["lo", "mid", "hi"]);
+  // let sampleLines = factory(4, ["hi", "mid", "lo"]);
+  let sampleLines = factory(6, ["lo", "hi"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
-  const {pos, setPosition} = useContext(positionContext);
+  const { pos, setPosition } = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
   const systemRulesRef = useRef();
@@ -25,6 +26,7 @@ const PatternProvider = (props) => {
   useEffect(() => {
     systemRulesRef.current = createBasicFitnessConditions();
     linesRef.current = sampleLines;
+    setBpm(140);
     setLines(sampleLines);
   },[])
 
@@ -84,11 +86,32 @@ const PatternProvider = (props) => {
     setBpm(newTempo)
   }
 
-  // Rules/fitnes
+  // Rules/fitness
   const changeDensity = (value, section) => {
     let rules = systemRulesRef.current;
     rules = setDensity(section, value, rules);
     systemRulesRef.current = rules;
+    console.log(value, section)
+  }
+
+  const changeParameter = (section, paramName, value, weight) => {
+    let sectionRules = Object.values(systemRulesRef.current);
+      sectionRules.forEach(ruleList => {
+        ruleList.forEach(rule => {
+
+          if (rule.description === paramName) {
+            if (rule.curryingFunction && value !== null) {
+              rule.fitnessFunction = rule.curryingFunction(value);
+              console.log(section, ":", paramName, "value:", value);
+            }
+            rule.weight = (weight || weight === 0) ?? rule.weight;
+            if (weight !== null) {
+              rule.weight = weight;
+              console.log(section, ":", paramName, "weight:", weight);
+            }
+          }
+        });
+      });
   }
 
 
@@ -131,6 +154,7 @@ const PatternProvider = (props) => {
     playing,
     toggleMute,
     changeDensity,
+    changeParameter
   };
 
   return (

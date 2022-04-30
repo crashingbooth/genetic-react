@@ -98,8 +98,6 @@ function evaluate(evaluators, seq) {
   let res = 0;
   for (let i = 0; i < evaluators.length; i++)
     res += evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
-    // res += evaluateRolePositive(seq);
-    console.log(res);
   return res;
 }
 
@@ -122,9 +120,7 @@ function sortByEvaluation(candidates, evaluators) {
   // returns [Pattern] sorted by evaluation score
 
   const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
-  // console.log(scores);
   const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
-  // console.log(sortedScores);
   const sortedCandidates = sortedScores.map(([cand, score]) => cand);
   return sortedCandidates;
 }

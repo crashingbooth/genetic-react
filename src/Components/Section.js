@@ -1,18 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Track from './Track';
-import ReactSlider from "react-slider";
+import Parameter from './Parameter';
 import { patternContext} from "../Providers/patternContext";
 import "../Styles/Track.css";
 
 function Section({sectionType}) {
-    const { lines,  changeDensity  } = useContext(patternContext);
+    const { lines } = useContext(patternContext);
     const sectionLines = lines[sectionType].map(i => i.pattern);
-
-
-    const movedSlider = (newVal) => {
-      changeDensity(newVal/100, sectionType);
-
-    }
 
   return (
     <>
@@ -22,13 +16,9 @@ function Section({sectionType}) {
           {sectionType!=="lo" && <hr/>}
         </div>
         <div className="section-controls">
-          <h1>density</h1>
-          <ReactSlider
-            className="horizontal-slider"
-            thumbClassName="example-thumb"
-            trackClassName="example-track"
-            onChange={movedSlider}
-          />
+          <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
+          <Parameter parameterName="role positive" className="parameter" sectionType={sectionType}/>
+          <Parameter parameterName="role negative" className="parameter" sectionType={sectionType}/>
         </div>
       </div>
     </>

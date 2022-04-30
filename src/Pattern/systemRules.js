@@ -2,7 +2,7 @@
 such that it can be used in the mutate function, and so that it can be modified by the sliders in section
 */
 
-const {roleBasedEvaluation, evaluateDensity ,evaluateRolePositive} = require('./fitness.js');
+const {roleBasedEvaluation, evaluateDensity, evaluateRolePositive, evaluateRoleNegative} = require('./fitness.js');
 
 const createBasicFitnessConditions = () => {
   // let conditions = {
@@ -20,11 +20,20 @@ const createBasicFitnessConditions = () => {
   Object.values(conditions).forEach(conditionList => {
     conditionList.push({
       description: "density",
-      // fitnessFunction: seq => evaluateDensity(1,seq),
-      fitnessFunction: curryDensity(1),
-      // fitnessFunction:  seq =>  evaluateRolePositive(seq),
+      fitnessFunction: curryDensity(0.25), // the applied function
+      curryingFunction: curryDensity,
       weight: 1
-    })
+    });
+    conditionList.push({
+      description: "role positive",
+      fitnessFunction: evaluateRolePositive,
+      weight: 1
+    });
+    conditionList.push({
+      description: "role negative",
+      fitnessFunction: evaluateRoleNegative,
+      weight: 1
+    });
   });
   return conditions
 }
