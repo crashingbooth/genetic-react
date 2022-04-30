@@ -4,7 +4,6 @@ import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
 function ParameterValueSlider({movedSlider, label, value}) {
-
   return (
     <>
       <div className="parameter-value-slider">
@@ -14,6 +13,7 @@ function ParameterValueSlider({movedSlider, label, value}) {
           thumbClassName="example-thumb"
           trackClassName="example-track"
           onChange={movedSlider}
+          value={value * 100}
         />
       </div>
     </>

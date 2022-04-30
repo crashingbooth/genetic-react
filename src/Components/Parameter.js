@@ -5,24 +5,27 @@ import { patternContext} from "../Providers/patternContext";
 
 function Parameter({parameterName, sectionType, hasValue}) {
   const { lines,  changeParameter, getParameterValue, getParameterWeight, systemRules } = useContext(patternContext);
+  const [value, setValue ] = useState(null);
+  const [weight, setWeight ] = useState(null);
 
   useEffect(() => {
+    console.log("useEffect called");
     if (hasValue) {
-      const value = getParameterValue(sectionType, parameterName);
-      console.log("parameterVal", sectionType, parameterName, value);
+      const val = getParameterValue(sectionType, parameterName);
+      setValue(val);
     }
-    const weight = getParameterWeight(sectionType, parameterName);
-    console.log("parameterWeight", sectionType, parameterName, weight);
+    const w = getParameterWeight(sectionType, parameterName);
+    setWeight(w);
   },[systemRules])
 
   const movedValueSlider = (newVal) => {
     changeParameter(sectionType, parameterName, newVal/100, null);
-    // changeDensity(newVal/100, sectionType);
+    setValue(newVal/100);
   }
 
   const movedWeightSlider = (newVal) => {
     changeParameter(sectionType, parameterName, null, newVal/100);
-    // changeDensity(newVal/100, sectionType);
+    setWeight(newVal/100);
   }
 
 
@@ -30,8 +33,8 @@ function Parameter({parameterName, sectionType, hasValue}) {
     <>
       <div className="parameter-section">
         <h1>{parameterName}</h1>
-        {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider}/>}
-        <ParameterValueSlider label="weight" movedSlider={movedWeightSlider}/>
+        {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider} value={value}/>}
+        <ParameterValueSlider label="weight" movedSlider={movedWeightSlider} value={weight}/>
       </div>
     </>
   )
