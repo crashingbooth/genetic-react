@@ -3,7 +3,7 @@ import ReactSlider from "react-slider";
 import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
-function Parameter({parameterName, sectionType}) {
+function Parameter({parameterName, sectionType, hasValue}) {
   const { lines,  changeParameter } = useContext(patternContext);
 
   const movedValueSlider = (newVal) => {
@@ -21,12 +21,14 @@ function Parameter({parameterName, sectionType}) {
     <>
       <div className="parameter-section">
         <h1>{parameterName}</h1>
-        <ReactSlider
+        {hasValue && <p>value</p>}
+        {hasValue && <ReactSlider
           className="horizontal-slider"
           thumbClassName="example-thumb"
           trackClassName="example-track"
           onChange={movedValueSlider}
-        />
+        />}
+        <p>weight</p>
         <ReactSlider
           className="horizontal-slider"
           thumbClassName="example-thumb"

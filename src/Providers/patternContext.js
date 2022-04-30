@@ -12,7 +12,7 @@ export const patternContext = createContext();
 const PatternProvider = (props) => {
 
   // let sampleLines = factory(4, ["hi", "mid", "lo"]);
-  let sampleLines = factory(4, ["lo"]);
+  let sampleLines = factory(6, ["lo", "hi"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -112,8 +112,6 @@ const PatternProvider = (props) => {
           }
         });
       });
-
-
   }
 
 

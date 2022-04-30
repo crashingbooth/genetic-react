@@ -25,12 +25,12 @@ const createBasicFitnessConditions = () => {
       weight: 1
     });
     conditionList.push({
-      description: "evaluateRolePositive",
+      description: "role positive",
       fitnessFunction: evaluateRolePositive,
       weight: 1
     });
     conditionList.push({
-      description: "evaluateRoleNegative",
+      description: "role negative",
       fitnessFunction: evaluateRoleNegative,
       weight: 1
     });
