@@ -12,7 +12,7 @@ export const patternContext = createContext();
 const PatternProvider = (props) => {
 
   // let sampleLines = factory(4, ["hi", "mid", "lo"]);
-  let sampleLines = factory(6, ["lo", "hi"]);
+  let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -21,10 +21,13 @@ const PatternProvider = (props) => {
   const playing = useRef();
   const linesRef = useRef();
   const systemRulesRef = useRef();
+  const [systemRules, setSystemRules] = useState();
   const [bpm, setBpm] = useState(140);
 
   useEffect(() => {
+    console.log("pattern context setup");
     systemRulesRef.current = createBasicFitnessConditions();
+    setSystemRules(systemRulesRef.current);
     linesRef.current = sampleLines;
     setBpm(140);
     setLines(sampleLines);
@@ -102,6 +105,7 @@ const PatternProvider = (props) => {
           if (rule.description === paramName) {
             if (rule.curryingFunction && value !== null) {
               rule.fitnessFunction = rule.curryingFunction(value);
+              rule.value = value;
               console.log(section, ":", paramName, "value:", value);
             }
             rule.weight = (weight || weight === 0) ?? rule.weight;
@@ -112,6 +116,24 @@ const PatternProvider = (props) => {
           }
         });
       });
+  }
+
+  const getParameterValue = (section, paramName) => {
+    if (!systemRulesRef.current) { return null }
+
+    const sectionRules = systemRulesRef.current[section];
+    const filteredRules = sectionRules.filter(rule => (rule.description === paramName));
+    if (filteredRules.length !== 1) { return null }
+    return filteredRules[0].value;
+  }
+
+  const getParameterWeight = (section, paramName) => {
+    if (!systemRulesRef.current) { return null }
+
+    const sectionRules = systemRulesRef.current[section];
+    const filteredRules = sectionRules.filter(rule => (rule.description === paramName));
+    if (filteredRules.length !== 1) { return null }
+    return filteredRules[0].weight;
   }
 
 
@@ -153,8 +175,10 @@ const PatternProvider = (props) => {
     changeBPM,
     playing,
     toggleMute,
-    changeDensity,
-    changeParameter
+    changeParameter,
+    getParameterValue,
+    getParameterWeight,
+    systemRules
   };
 
   return (

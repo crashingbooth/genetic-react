@@ -4,7 +4,16 @@ import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
 function Parameter({parameterName, sectionType, hasValue}) {
-  const { lines,  changeParameter } = useContext(patternContext);
+  const { lines,  changeParameter, getParameterValue, getParameterWeight, systemRules } = useContext(patternContext);
+
+  useEffect(() => {
+    if (hasValue) {
+      const value = getParameterValue(sectionType, parameterName);
+      console.log("parameterVal", sectionType, parameterName, value);
+    }
+    const weight = getParameterWeight(sectionType, parameterName);
+    console.log("parameterWeight", sectionType, parameterName, weight);
+  },[systemRules])
 
   const movedValueSlider = (newVal) => {
     changeParameter(sectionType, parameterName, newVal/100, null);
