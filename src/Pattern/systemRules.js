@@ -20,6 +20,7 @@ const createBasicFitnessConditions = () => {
   Object.values(conditions).forEach(conditionList => {
     conditionList.push({
       description: "density",
+      value: 0.25,
       fitnessFunction: curryDensity(0.25), // the applied function
       curryingFunction: curryDensity,
       weight: 1

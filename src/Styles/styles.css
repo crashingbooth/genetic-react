@@ -22,7 +22,6 @@
   margin: 20px 0 0 20px;
 }
 
-
 .dot {
   border-style: solid;
   border-color: black;
@@ -79,6 +78,10 @@
 
 .parameter-section p {
   text-align: left;
+}
+
+.parameter-value-slider {
+  padding: 0.5rem 0;
 }
 
 /* slider */

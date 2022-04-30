@@ -3,7 +3,7 @@ import ReactSlider from "react-slider";
 import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
-function ParameterValueSlider({movedSlider, label}) {
+function ParameterValueSlider({movedSlider, label, value}) {
 
   return (
     <>
