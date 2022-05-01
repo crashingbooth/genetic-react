@@ -18,6 +18,7 @@ export default function Track({lineNumber, sectionType}) {
       <div className="v-line"/>
       <div className="spacer"/>
       <div className="label-area">
+        <p>{sectionType}</p>
       </div>
       <TrackEventSection lineNumber={lineNumber} sectionType={sectionType}/>
     </div>

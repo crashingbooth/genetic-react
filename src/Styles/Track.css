@@ -31,12 +31,12 @@
 
 
 .label-area {
-  width: 1rem;
+  width: 1.2rem;
   display: flex;
   flex-direction: column;
   align-content: center;
 }
 
 .label-area p {
-  margin: 0;
+  padding: 3px 0;
 }

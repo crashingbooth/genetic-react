@@ -19,7 +19,7 @@
 }
 
 .track-section {
-  margin: 20px 0 0 20px;
+  margin: 0 0 0 20px;
 }
 
 .dot {
@@ -37,7 +37,7 @@
 }
 
 .unselected-button {
-  background-color: #0000FF;
+  background-color: #0000FF00;
 }
 
 .highlighted-dot {

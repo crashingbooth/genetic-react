@@ -75,14 +75,26 @@ function evaluateRoleNegative(seq) {
   }
 }
 
+// function evaluateDensity(idealRatio, seq) {
+//   const ticks = seq.phrase.flat();
+//   const expectedTicks = Math.round(ticks.length * idealRatio);
+//   const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
+//   const realTickCount = ticks.reduce((prev,cur) => {
+//     return prev + (cur ? 1 : 0);
+//   },0);
+//   return (1 - Math.abs(expectedTicks - realTickCount)/maxDistance);
+// }
+
 function evaluateDensity(idealRatio, seq) {
   const ticks = seq.phrase.flat();
-  const expectedTicks = Math.round(ticks.length * idealRatio);
-  const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
-  const realTickCount = ticks.reduce((prev,cur) => {
-    return prev + (cur ? 1 : 0);
-  },0);
-  return (1 - Math.abs(expectedTicks - realTickCount)/maxDistance);
+  const activeTicks = ticks.filter(t => t);
+  const realRatio = activeTicks/ticks.length;
+  // const expectedTicks = Math.round(ticks.length * idealRatio);
+  // const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
+  // const realTickCount = ticks.reduce((prev,cur) => {
+  //   return prev + (cur ? 1 : 0);
+  // },0);
+  return (1 - Math.abs(idealRatio - realRatio));
 }
 
 function evaluate(evaluators, seq) {

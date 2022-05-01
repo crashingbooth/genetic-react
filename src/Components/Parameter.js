@@ -9,7 +9,6 @@ function Parameter({parameterName, sectionType, hasValue}) {
   const [weight, setWeight ] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect called");
     if (hasValue) {
       const val = getParameterValue(sectionType, parameterName);
       setValue(val);
