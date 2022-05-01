@@ -7,7 +7,7 @@
 
 .section-wrapper {
   padding: 10px;
-  margin: 5px 0;
+  margin: 10px;
   border: 1px solid black;
   background-color: #eee;
   display: inline-grid;
@@ -16,10 +16,6 @@
 .body-wrapper {
   display: inline-flex;
   flex-direction: column;
-}
-
-.track-section {
-  margin: 0 0 0 20px;
 }
 
 .dot {
