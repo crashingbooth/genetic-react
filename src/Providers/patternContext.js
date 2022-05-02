@@ -109,7 +109,8 @@ const PatternProvider = (props) => {
               // console.log(section, ":", paramName, "value:", value);
               // console.log(systemRulesRef.current[section], "value:", value);
             }
-            rule.weight = (weight || weight === 0) ?? rule.weight;
+            // if (weight !=== null)
+            // rule.weight = (weight || weight === 0) ?? rule.weight;
             if (weight !== null) {
               rule.weight = weight;
               // console.log(section, ":", paramName, "weight:", weight);
@@ -117,6 +118,7 @@ const PatternProvider = (props) => {
           }
         });
       });
+      // console.log("systemRules", systemRulesRef.current);
       setSystemRules(systemRulesRef.current);
   }
 

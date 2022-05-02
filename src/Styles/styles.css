@@ -43,6 +43,7 @@
 .section-wrapper-single {
   display: inline-flex;
   align-items: center;
+  margin: 5px 0;
 }
 
 .section-controls {

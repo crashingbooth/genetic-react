@@ -88,13 +88,15 @@ function evaluateRoleNegative(seq) {
 function evaluateDensity(idealRatio, seq) {
   const ticks = seq.phrase.flat();
   const activeTicks = ticks.filter(t => t);
-  const realRatio = activeTicks/ticks.length;
+  const realRatio = activeTicks.length/ticks.length;
   // const expectedTicks = Math.round(ticks.length * idealRatio);
   // const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
   // const realTickCount = ticks.reduce((prev,cur) => {
   //   return prev + (cur ? 1 : 0);
   // },0);
-  return (1 - Math.abs(idealRatio - realRatio));
+  const result = (1 - Math.abs(idealRatio - realRatio));
+  console.log("density", seq.showPhrase(), result);
+  return result;
 }
 
 function evaluate(evaluators, seq) {
@@ -108,8 +110,10 @@ function evaluate(evaluators, seq) {
   // }, 0);
 
   let res = 0;
-  for (let i = 0; i < evaluators.length; i++)
+  for (let i = 0; i < evaluators.length; i++) {
     res += evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
+  }
+        console.log("all", seq.showPhrase(), res);
   return res;
 }
 
