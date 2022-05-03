@@ -138,7 +138,19 @@ function summarize(seqs) {
     return tally;
   }, Array(16).fill(0));
   console.log("sum", result);
-  return {length: seqs.length, tally: result };
+  return {numSeqs: seqs.length, tally: result };
+}
+
+function rewardOriginality(summary, seq) {
+  const ticks = seq.phrase.flat();
+  const scoreByTick = ticks.map((tick, i) => {
+    const otherPopulation = summary.numSeqs - 1);
+    const posTally = summary.tally[i];
+    const modifiedPosTally = tick ? posTally - 1 : posTally;
+    const posScore = tick ? (otherPopulation - modifiedPosTally)/otherPopulation :  modifiedPosTally/otherPopulation
+    return posScore
+  })
+  return scoreByTick.reduce((prev, curr) => prev + curr, 0);
 }
 
 function sortByEvaluation(candidates, evaluators) {
