@@ -11,8 +11,8 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  // let sampleLines = factory(4, ["hi", "mid", "lo"]);
-  let sampleLines = factory(4, ["lo"]);
+  let sampleLines = factory(4, ["hi", "mid", "lo"]);
+  // let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -106,19 +106,13 @@ const PatternProvider = (props) => {
             if (rule.curryingFunction && value !== null) {
               rule.fitnessFunction = rule.curryingFunction(value);
               rule.value = value;
-              // console.log(section, ":", paramName, "value:", value);
-              // console.log(systemRulesRef.current[section], "value:", value);
             }
-            // if (weight !=== null)
-            // rule.weight = (weight || weight === 0) ?? rule.weight;
             if (weight !== null) {
               rule.weight = weight;
-              // console.log(section, ":", paramName, "weight:", weight);
             }
           }
         });
       });
-      // console.log("systemRules", systemRulesRef.current);
       setSystemRules(systemRulesRef.current);
   }
 

@@ -95,7 +95,6 @@ function evaluateDensity(idealRatio, seq) {
   //   return prev + (cur ? 1 : 0);
   // },0);
   const result = (1 - Math.abs(idealRatio - realRatio));
-  console.log("density", seq.showPhrase(), result);
   return result;
 }
 
@@ -110,10 +109,13 @@ function evaluate(evaluators, seq) {
   // }, 0);
 
   let res = 0;
+  console.log("seq:", seq.showPhrase());
   for (let i = 0; i < evaluators.length; i++) {
-    res += evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
+    const evalScore = evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
+    console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
+    res += evalScore;
   }
-        console.log("all", seq.showPhrase(), res);
+  console.log("all", res);
   return res;
 }
 

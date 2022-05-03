@@ -25,16 +25,16 @@ const createBasicFitnessConditions = () => {
       curryingFunction: curryDensity,
       weight: 1
     });
-    // conditionList.push({
-    //   description: "role positive",
-    //   fitnessFunction: evaluateRolePositive,
-    //   weight: 1
-    // });
-    // conditionList.push({
-    //   description: "role negative",
-    //   fitnessFunction: evaluateRoleNegative,
-    //   weight: 1
-    // });
+    conditionList.push({
+      description: "role positive",
+      fitnessFunction: evaluateRolePositive,
+      weight: 1
+    });
+    conditionList.push({
+      description: "role negative",
+      fitnessFunction: evaluateRoleNegative,
+      weight: 1
+    });
   });
   return conditions
 }
