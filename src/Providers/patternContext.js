@@ -4,15 +4,15 @@ import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern, factory } from "../Pattern/pattern";
-import { generationProcedure } from "../Pattern/fitness";
+import { generationProcedure, summarize } from "../Pattern/fitness";
 import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  let sampleLines = factory(4, ["hi", "mid", "lo"]);
-  // let sampleLines = factory(4, ["lo"]);
+  // let sampleLines = factory(4, ["hi", "mid", "lo"]);
+  let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -38,6 +38,8 @@ const PatternProvider = (props) => {
      Object.keys(linesRef.current).forEach((sectionType) => {
        let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
        let ps = vals.map(item => item.pattern);
+       let seqs = ps.map(line => line.phrase.flat());
+      console.log(sectionType, summarize(seqs));
        const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
        nextGen.forEach((p, i) => {
           vals[i].pattern = p

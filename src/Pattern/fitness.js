@@ -109,13 +109,11 @@ function evaluate(evaluators, seq) {
   // }, 0);
 
   let res = 0;
-  console.log("seq:", seq.showPhrase());
   for (let i = 0; i < evaluators.length; i++) {
     const evalScore = evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
-    console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
+    // console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
     res += evalScore;
   }
-  console.log("all", res);
   return res;
 }
 
@@ -131,6 +129,17 @@ const roleBasedEvaluation = [
     weight: 1
   }
 ]
+
+function summarize(seqs) {
+  let result = seqs.reduce((tally, seq) => {
+    seq.forEach((val, i) => {
+      if (val) {tally[i] += 1;}
+    });
+    return tally;
+  }, Array(16).fill(0));
+  console.log("sum", result);
+  return {length: seqs.length, tally: result };
+}
 
 function sortByEvaluation(candidates, evaluators) {
   // candidates: [Pattern]
@@ -185,4 +194,5 @@ module.exports  = { matchSingleChromosome,
                     sortByEvaluation,
                     generationProcedure,
                     sampleGenerate, // public
+                    summarize, // public
                   };
