@@ -1,7 +1,7 @@
 const { matchSingleChromosome,
                     rewardSingleCorrectChomosome,
                     punishSingleWrongChromosome, evaluateSequencePositive, evaluateSequenceNegative, evaluateRolePositive,
-                    evaluateRoleNegative, evaluate, evaluateDensity,
+                    evaluateRoleNegative, evaluate, evaluateDensity, rewardOriginality,
                     roleBasedEvaluation, sortByEvaluation, sampleGenerate} = require('./fitness.js');
 const {LoPat, MidPat, HiPat} = require('./pattern-types.js');
 
@@ -173,15 +173,36 @@ test('density, match', () => {
   const p = new LoPat();
   p.setPhrase('---- ---- ---- x---');
   const score = evaluateDensity(0.25, p);
-  expect(score).toBe(9/12);
+  expect(score).toBe(13/16);
 })
 
 test('density, match', () => {
   const p = new LoPat();
   p.setPhrase('xxxx xxxx xxxx xxxx');
   const score = evaluateDensity(0.25, p);
+  expect(score).toBe(0.25);
+});
+
+// rewardOriginality
+test('rewardsOriginality - total nonconformity', () => {
+  const summary = {
+    numSeqs: 4,
+    tally: [1,3,3,3]
+  }
+  const seq = {phrase: [[true, false, false, false]]};
+  const score = rewardOriginality(summary, seq);
+  expect(score).toBe(1);
+});
+
+test('rewardsOriginality - total conformity', () => {
+  const summary = {
+    numSeqs: 4,
+    tally: [0,4,4,4]
+  }
+  const seq = {phrase: [[false, true, true, true]]};
+  const score = rewardOriginality(summary, seq);
   expect(score).toBe(0);
-})
+});
 
 // score
 test('score evaluates correctly: lo from start', () => {

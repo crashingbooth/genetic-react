@@ -11,8 +11,8 @@ export const patternContext = createContext();
 
 const PatternProvider = (props) => {
 
-  // let sampleLines = factory(4, ["hi", "mid", "lo"]);
-  let sampleLines = factory(4, ["lo"]);
+  let sampleLines = factory(4, ["hi", "mid", "lo"]);
+  // let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -55,7 +55,7 @@ const PatternProvider = (props) => {
 
   const play = () => {
     if (playing.current) { return }
-
+    let loopCount = -1;
     Tone.start()
     let i = pos;
     loopA = new Tone.Loop((time) => {
@@ -72,7 +72,12 @@ const PatternProvider = (props) => {
 
       i = ((i + 1) % 16);
       setPosition(i);
-      if (i === 0) { mutateAll() }
+      if (i === 0) {
+        loopCount += 1;
+        if (loopCount % 4 === 0) {
+          mutateAll();
+        }
+         }
     }, "8n").start(0);
 
     Tone.Transport.start();
