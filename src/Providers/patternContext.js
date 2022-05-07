@@ -28,6 +28,9 @@ const PatternProvider = (props) => {
     console.log("pattern context setup");
     systemRulesRef.current = createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
+    // sampleLines["lo"].loopCycle = 4;
+    // sampleLines["mid"].loopCycle = 2;
+    console.log(sampleLines);
     linesRef.current = sampleLines;
     setBpm(140);
     setLines(sampleLines);
@@ -166,7 +169,7 @@ const PatternProvider = (props) => {
   }
 
   const toggleMute = (section, lineNumber) => {
-    linesRef.current[section][lineNumber].mute = !linesRef.current[section][lineNumber].mute;
+    linesRef.current[section].content[lineNumber].mute = !linesRef.current[section].content[lineNumber].mute;
     setLines({...linesRef.current});
   }
 
