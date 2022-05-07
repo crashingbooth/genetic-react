@@ -6,7 +6,7 @@ function TempoStepper() {
   const {bpm, changeBPM} = useContext(patternContext);
 
   return (
-    <Stepper changeValue={changeBPM} startValue={bpm} />
+    <Stepper changeValue={changeBPM} startValue={bpm} minValue="130" maxValue="150"/>
   )
 }
 

@@ -1,16 +1,19 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {patternContext} from '../Providers/patternContext';
 
-function Stepper({startValue, changeValue}) {
-  const {bpm, changeBPM} = useContext(patternContext);
+function Stepper({startValue, changeValue, minValue, maxValue}) {
   const [localValue, setLocalValue] = useState(startValue);
 
   useEffect(() => {
     setLocalValue(startValue);
-  },[bpm]);
+  },[startValue]);
 
   const changeLocalValue = delta => {
-    changeValue(localValue + delta);
+    let newVal = localValue + delta;
+    if (newVal < minValue) { newVal = Number(minValue) };
+    if (newVal > maxValue) { newVal = Number(maxValue) };
+    setLocalValue(newVal);
+    changeValue(newVal);
   }
 
   return (
