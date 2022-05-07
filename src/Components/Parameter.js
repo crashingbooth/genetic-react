@@ -31,7 +31,9 @@ function Parameter({parameterName, sectionType, hasValue}) {
   return (
     <>
       <div className="parameter-section">
-        <h1>{parameterName}</h1>
+        <div className="parameter-section-header">
+          <h1>{parameterName}</h1>
+        </div>  
         {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider} value={value}/>}
         <ParameterValueSlider label="weight" movedSlider={movedWeightSlider} value={weight}/>
       </div>

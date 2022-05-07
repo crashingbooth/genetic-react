@@ -60,8 +60,7 @@ html {
 }
 
 .section-controls h1{
-  font-size: 1rem;
-  padding-left: 0.5rem;
+  font-size: 1.2rem;
   overflow: hidden;
 }
 
@@ -69,20 +68,23 @@ html {
   border: 1px solid black;
   margin: 0.5rem;
   font-weight: 200;
-  font-size: 0.7rem;
   padding: 0.2rem;
   display: flex;
   flex-direction: column;
-  align-items:flex-start;
   justify-content: space-between;
 }
 
-.parameter-section h1 {
+.parameter-section-header {
+  justify-content: center;
+}
+
+.parameter-section-header h1 {
   text-align: center;
 }
 
 .parameter-section p {
   text-align: left;
+  margin: 0 .5rem;
 }
 
 .parameter-value-slider {

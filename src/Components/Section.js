@@ -16,6 +16,7 @@ function Section({sectionType}) {
           <div className="track-section">
             { sectionLines.map((line, i) => <Track lineNumber={i} sectionType={sectionType}  key={i}/>) }
           </div>
+          <div className="spacer"></div>
           <div className="section-controls">
             <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
             <Parameter parameterName="role positive" className="parameter" sectionType={sectionType}/>
