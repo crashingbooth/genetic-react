@@ -3,14 +3,14 @@
 }
 .label-holder {
   display: block;
-  width: 80px;
+  width: .8rem;
   margin-top: auto;
   margin-bottom: auto;
 }
 
 .label-holder p {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .single-track-wrapper{
@@ -21,12 +21,12 @@
 
 .v-line {
   border-left: 2px solid black;
-  height: 25px;
+  height: 2rem;
 }
 
 .spacer {
   display: block;
-  width: 20px;
+  width: 1rem;
 }
 
 
@@ -38,5 +38,5 @@
 }
 
 .label-area p {
-  padding: 3px 0;
+  padding: 0.3rem 0;
 }
