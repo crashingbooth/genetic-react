@@ -4,10 +4,10 @@ import '../Styles/styles.css';
 
 function MuteButton({section, lineNumber}) {
   const {lines, toggleMute } = useContext(patternContext);
-  const [isMute, setIsMute] = useState(lines[section][lineNumber].mute);
+  const [isMute, setIsMute] = useState(lines[section].content[lineNumber].mute);
 
   useEffect(() => {
-    setIsMute(lines[section][lineNumber].mute);
+    setIsMute(lines[section].content[lineNumber].mute);
   }, [lines])
 
   const muteTrack = () => {

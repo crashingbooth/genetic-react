@@ -36,14 +36,31 @@ const PatternProvider = (props) => {
   // Pattern Management
   const mutateAll = () => {
      Object.keys(linesRef.current).forEach((sectionType) => {
-       let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
+       let vals = linesRef.current[sectionType].content; // sample generate expects array of patterns
        let ps = vals.map(item => item.pattern);
        const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
        nextGen.forEach((p, i) => {
           vals[i].pattern = p
        });
 
-       linesRef.current[sectionType] = vals;
+       linesRef.current[sectionType].content = vals;
+     });
+     setLines(linesRef.current);
+  }
+  const mutateSome = (loopCount) => {
+    console.log(linesRef.current);
+     Object.keys(linesRef.current).forEach((sectionType) => {
+       // console.log(linesRef.current[sectionType]);
+       if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
+         let vals = linesRef.current[sectionType].content; // sample generate expects array of patterns
+         let ps = vals.map(item => item.pattern);
+         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
+         nextGen.forEach((p, i) => {
+            vals[i].pattern = p
+         });
+
+         linesRef.current[sectionType].content = vals;
+       }
      });
      setLines(linesRef.current);
   }
@@ -58,7 +75,7 @@ const PatternProvider = (props) => {
     let i = pos;
     loopA = new Tone.Loop((time) => {
       Object.values(linesRef.current).forEach((section) => {
-        section.forEach((patternPair, j) => {
+        section.content.forEach((patternPair, j) => {
           let pattern = patternPair.pattern;
           if ( !patternPair.mute && (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
@@ -72,10 +89,8 @@ const PatternProvider = (props) => {
       setPosition(i);
       if (i === 0) {
         loopCount += 1;
-        if (loopCount % 1 === 0) {
-          mutateAll();
-          }
-         }
+        mutateSome(loopCount);
+      }
     }, "8n").start(0);
 
     Tone.Transport.start();

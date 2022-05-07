@@ -6,7 +6,7 @@ import "../Styles/Track.css";
 
 function Section({sectionType}) {
     const { lines } = useContext(patternContext);
-    const sectionLines = lines[sectionType].map(i => i.pattern);
+    const sectionLines = lines[sectionType].content.map(i => i.pattern);
 
   return (
     <>
