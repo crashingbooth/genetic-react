@@ -17,6 +17,11 @@ html {
   display: inline-grid;
 }
 
+.section-header {
+  display: flex;
+  flex-direction: row;
+}
+
 .body-wrapper {
   display: inline-flex;
   flex-direction: column;

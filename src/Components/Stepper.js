@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import {patternContext} from '../Providers/patternContext';
 
-function Stepper({startValue, changeValue, minValue, maxValue}) {
+function Stepper({label, startValue, changeValue, minValue, maxValue}) {
   const [localValue, setLocalValue] = useState(startValue);
 
   useEffect(() => {
@@ -17,11 +17,14 @@ function Stepper({startValue, changeValue, minValue, maxValue}) {
   }
 
   return (
-    <div className='tempo-wrapper'>
-      <button className='stepper stepper-left' onClick={() => changeLocalValue(-1)}>▼</button>
-      <p>{localValue}</p>
-      <button className='stepper stepper-right' onClick={() => changeLocalValue(1)}>▲</button>
-    </div>
+    <>
+      <p>{label}</p>
+      <div className='stepper-wrapper'>
+        <button className='stepper stepper-left' onClick={() => changeLocalValue(-1)}>▼</button>
+        <p>{localValue}</p>
+        <button className='stepper stepper-right' onClick={() => changeLocalValue(1)}>▲</button>
+      </div>
+    </>
   )
 }
 

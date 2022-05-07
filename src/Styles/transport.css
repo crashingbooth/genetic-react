@@ -3,12 +3,12 @@
   justify-content: center;
 }
 
-.tempo-wrapper {
+.stepper-wrapper {
   border: 1px solid #666;
   display: flex;
 }
 
-.tempo-wrapper p {
+.stepper-wrapper p {
   max-resolution: 0;
   display: flex;
   flex-direction: column;

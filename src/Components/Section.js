@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Track from './Track';
 import Parameter from './Parameter';
+import LoopCycleStepper from './LoopCycleStepper';
 import { patternContext} from "../Providers/patternContext";
 import "../Styles/Track.css";
 
@@ -11,7 +12,10 @@ function Section({sectionType}) {
   return (
     <>
       <div className="section-wrapper-outer">
-        <h1>{sectionType}</h1>
+        <div className="section-header">
+          <h1>{sectionType}</h1>
+          <LoopCycleStepper/>
+        </div>
         <div className="section-wrapper-single">
           <div className="track-section">
             { sectionLines.map((line, i) => <Track lineNumber={i} sectionType={sectionType}  key={i}/>) }
