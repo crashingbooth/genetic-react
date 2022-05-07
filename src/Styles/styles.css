@@ -44,6 +44,10 @@ html {
   background-color: blue;
 }
 
+.section-wrapper-outer h1 {
+  font-size: 1.5rem;
+}
+
 .section-wrapper-single {
   display: inline-flex;
   align-items: center;

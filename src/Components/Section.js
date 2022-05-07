@@ -10,16 +10,18 @@ function Section({sectionType}) {
 
   return (
     <>
-      <div className="section-wrapper-single">
-        <div className="track-section">
-          { sectionLines.map((line, i) => <Track lineNumber={i} sectionType={sectionType}  key={i}/>) }
-          {sectionType!=="lo" && <hr/>}
-        </div>
-        <div className="section-controls">
-          <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
-          <Parameter parameterName="role positive" className="parameter" sectionType={sectionType}/>
-          <Parameter parameterName="role negative" className="parameter" sectionType={sectionType}/>
-          <Parameter parameterName="reward originality" className="parameter" sectionType={sectionType}/>
+      <div className="section-wrapper-outer">
+        <h1>{sectionType}</h1>
+        <div className="section-wrapper-single">
+          <div className="track-section">
+            { sectionLines.map((line, i) => <Track lineNumber={i} sectionType={sectionType}  key={i}/>) }
+          </div>
+          <div className="section-controls">
+            <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
+            <Parameter parameterName="role positive" className="parameter" sectionType={sectionType}/>
+            <Parameter parameterName="role negative" className="parameter" sectionType={sectionType}/>
+            <Parameter parameterName="reward originality" className="parameter" sectionType={sectionType}/>
+          </div>
         </div>
       </div>
     </>

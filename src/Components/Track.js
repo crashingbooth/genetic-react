@@ -14,12 +14,6 @@ export default function Track({lineNumber, sectionType}) {
   return (
     <div className='single-track-wrapper'>
       <MuteButton section={sectionType} lineNumber={lineNumber}/>
-      <div className="spacer"/>
-      <div className="v-line"/>
-      <div className="spacer"/>
-      <div className="label-area">
-        <p>{sectionType}</p>
-      </div>
       <TrackEventSection lineNumber={lineNumber} sectionType={sectionType}/>
     </div>
   )
