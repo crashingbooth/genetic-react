@@ -190,7 +190,7 @@ test('rewardsOriginality - total nonconformity', () => {
     tally: [1,3,3,3]
   }
   const seq = {phrase: [[true, false, false, false]]};
-  const score = rewardOriginality(summary, seq);
+  const score = rewardOriginality(seq, summary);
   expect(score).toBe(1);
 });
 
@@ -200,7 +200,7 @@ test('rewardsOriginality - total conformity', () => {
     tally: [0,4,4,4]
   }
   const seq = {phrase: [[false, true, true, true]]};
-  const score = rewardOriginality(summary, seq);
+  const score = rewardOriginality(seq, summary);
   expect(score).toBe(0);
 });
 

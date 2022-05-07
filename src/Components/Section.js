@@ -19,6 +19,7 @@ function Section({sectionType}) {
           <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
           <Parameter parameterName="role positive" className="parameter" sectionType={sectionType}/>
           <Parameter parameterName="role negative" className="parameter" sectionType={sectionType}/>
+          <Parameter parameterName="reward originality" className="parameter" sectionType={sectionType}/>
         </div>
       </div>
     </>

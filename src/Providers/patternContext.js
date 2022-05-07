@@ -38,8 +38,6 @@ const PatternProvider = (props) => {
      Object.keys(linesRef.current).forEach((sectionType) => {
        let vals = linesRef.current[sectionType]; // sample generate expects array of patterns
        let ps = vals.map(item => item.pattern);
-       let seqs = ps.map(line => line.phrase.flat());
-      console.log(sectionType, summarize(seqs));
        const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
        nextGen.forEach((p, i) => {
           vals[i].pattern = p
@@ -74,9 +72,9 @@ const PatternProvider = (props) => {
       setPosition(i);
       if (i === 0) {
         loopCount += 1;
-        if (loopCount % 4 === 0) {
+        if (loopCount % 1 === 0) {
           mutateAll();
-        }
+          }
          }
     }, "8n").start(0);
 

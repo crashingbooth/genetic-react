@@ -98,7 +98,7 @@ function evaluateDensity(idealRatio, seq) {
   return result;
 }
 
-function evaluate(evaluators, seq) {
+function evaluate(evaluators, seq, summary) {
   // evaluators:
   // [{
   //    fitnessFunction: <function taking seq as arg>,
@@ -110,7 +110,7 @@ function evaluate(evaluators, seq) {
 
   let res = 0;
   for (let i = 0; i < evaluators.length; i++) {
-    const evalScore = evaluators[i].fitnessFunction(seq) * evaluators[i].weight;
+    const evalScore = evaluators[i].fitnessFunction(seq, summary) * evaluators[i].weight;
     // console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
     res += evalScore;
   }
@@ -140,26 +140,26 @@ function summarize(seqs) {
   return {numSeqs: seqs.length, tally: result };
 }
 
-function rewardOriginality(summary, seq) {
+function rewardOriginality(seq, summary) {
   const ticks = seq.phrase.flat();
   const otherPopulation = (summary.numSeqs - 1);
   const scoreByTick = ticks.map((tick, i) => {
     const posTally = summary.tally[i];
     const modifiedPosTally = tick ? posTally - 1 : posTally;
     const posScore = tick ? (otherPopulation - modifiedPosTally)/otherPopulation :  modifiedPosTally/otherPopulation
-    console.log(posScore);
     return posScore
   })
   const total = scoreByTick.reduce((prev, curr) => prev + curr, 0);
   return total/ticks.length;
 }
 
-function sortByEvaluation(candidates, evaluators) {
+function sortByEvaluation(candidates, evaluators, summary) {
   // candidates: [Pattern]
   // evaluators: [{fitnessFunction, weight}]
+  // summary: e.g.,[3,0,1,0...] the number of candidates with events at each position
   // returns [Pattern] sorted by evaluation score
 
-  const scores = candidates.map(c => [c, evaluate(evaluators, c)]);
+  const scores = candidates.map(c => [c, evaluate(evaluators, c, summary)]);
   const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
   const sortedCandidates = sortedScores.map(([cand, score]) => cand);
   return sortedCandidates;
@@ -184,7 +184,9 @@ function breed(sortedCandidates, numParentMutations, numChildMutations) {
 }
 
 function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
-  const sorted = sortByEvaluation(candidates, evaluators);
+  const seqs = candidates.map(c => c.phrase.flat());
+  const summary = summarize(seqs);
+  const sorted = sortByEvaluation(candidates, evaluators, summary);
   const survivors = takeHalf(sorted);
   const nextGen = breed(survivors, numParentMutations, numChildMutations);
   return nextGen;
@@ -209,4 +211,5 @@ module.exports  = { matchSingleChromosome,
                     rewardOriginality, //public
                     sampleGenerate, // public
                     summarize, // public
+                    rewardOriginality,
                   };
