@@ -18,11 +18,13 @@ function Stepper({label, startValue, changeValue, minValue, maxValue}) {
 
   return (
     <>
-      <p>{label}</p>
-      <div className='stepper-wrapper'>
-        <button className='stepper stepper-left' onClick={() => changeLocalValue(-1)}>▼</button>
-        <p>{localValue}</p>
-        <button className='stepper stepper-right' onClick={() => changeLocalValue(1)}>▲</button>
+      <div className='stepper-wrapper-outer'>
+        <p>{label}</p>
+        <div className='stepper-wrapper'>
+          <button className='stepper stepper-left' onClick={() => changeLocalValue(-1)}>▼</button>
+          <p>{localValue}</p>
+          <button className='stepper stepper-right' onClick={() => changeLocalValue(1)}>▲</button>
+        </div>
       </div>
     </>
   )

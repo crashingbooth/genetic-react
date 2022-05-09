@@ -19,7 +19,10 @@ html {
 
 .section-header {
   display: flex;
+  width: 30%;
   flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .body-wrapper {
@@ -64,7 +67,7 @@ html {
   flex-direction: row;
 }
 
-.section-controls h1{
+.section-controls h1 {
   font-size: 1.2rem;
   overflow: hidden;
 }

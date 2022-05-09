@@ -3,6 +3,17 @@
   justify-content: center;
 }
 
+.stepper-wrapper-outer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stepper-wrapper-outer p {
+  padding-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
 .stepper-wrapper {
   border: 1px solid #666;
   display: flex;
