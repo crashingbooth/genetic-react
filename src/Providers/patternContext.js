@@ -173,6 +173,11 @@ const PatternProvider = (props) => {
     setLines({...linesRef.current});
   }
 
+  const setLoopCycle = (section, newLoopCycle) => {
+    linesRef.current[section].loopCycle = newLoopCycle;
+    setLines({...linesRef.current});
+  }
+
   // const loadPatterns = file => {
   //   const fileReader = new FileReader();
   //   fileReader.readAsText(file, "UTF-8");
@@ -196,6 +201,7 @@ const PatternProvider = (props) => {
     changeBPM,
     playing,
     toggleMute,
+    setLoopCycle,
     changeParameter,
     getParameterValue,
     getParameterWeight,

@@ -14,7 +14,7 @@ function Section({sectionType}) {
       <div className="section-wrapper-outer">
         <div className="section-header">
           <h1>{sectionType}</h1>
-          <LoopCycleStepper/>
+          <LoopCycleStepper sectionType={sectionType}/>
         </div>
         <div className="section-wrapper-single">
           <div className="track-section">
