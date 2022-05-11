@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Track from './Track';
 import Parameter from './Parameter';
 import LoopCycleStepper from './LoopCycleStepper';
+import SampleLibraryStepper from './SampleLibraryStepper';
 import { patternContext} from "../Providers/patternContext";
 import "../Styles/Track.css";
 
@@ -15,6 +16,7 @@ function Section({sectionType}) {
         <div className="section-header">
           <h1>{sectionType}</h1>
           <LoopCycleStepper sectionType={sectionType}/>
+          <SampleLibraryStepper sectionType={sectionType}/>
         </div>
         <div className="section-wrapper-single">
           <div className="track-section">

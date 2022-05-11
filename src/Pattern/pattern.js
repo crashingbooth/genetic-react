@@ -100,7 +100,7 @@ function factory(numberOfEach, sections) {
       pat.setPhrase('---- ---- ---- ----');
       sectionArr.push({mute: false, pattern: pat})
     }
-    pools[section] = {content: sectionArr, loopCycle: 1};
+    pools[section] = {content: sectionArr, loopCycle: 1, sampleLibrary: section};
   });
   return pools;
 }

@@ -34,6 +34,8 @@ const PatternProvider = (props) => {
     setLines(sampleLines);
   },[])
 
+  // Sound Mapping
+
   // Pattern Management
   const mutateAll = () => {
      Object.keys(linesRef.current).forEach((sectionType) => {
@@ -78,7 +80,7 @@ const PatternProvider = (props) => {
       Object.values(linesRef.current).forEach((section) => {
         section.content.forEach((patternPair, j) => {
           let pattern = patternPair.pattern;
-          let sound = rerouteSoundLibrary(pattern.type);
+          let sound = section.sampleLibrary;
           if ( !patternPair.mute && (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
             let note = pool[sound][sampleID % pool[sound].length];
@@ -99,20 +101,6 @@ const PatternProvider = (props) => {
     playing.current = true;
   };
 
-  const rerouteSoundLibrary = (oldVal) => {
-    switch (oldVal) {
-      case "lo":
-        return oldVal;
-        break;
-      case "mid":
-        return "feel";
-        break;
-      case "hi":
-        return "gam1";
-        break;
-    }
-  }
-
   const stop = () => {
     Tone.Transport.stop();
     Tone.Transport.cancel();
@@ -126,13 +114,6 @@ const PatternProvider = (props) => {
   }
 
   // Rules/fitness
-  const changeDensity = (value, section) => {
-    let rules = systemRulesRef.current;
-    rules = setDensity(section, value, rules);
-    systemRulesRef.current = rules;
-    console.log(value, section)
-  }
-
   const changeParameter = (section, paramName, value, weight) => {
     let sectionRules = Object.values(systemRulesRef.current);
       sectionRules.forEach(ruleList => {
@@ -191,6 +172,12 @@ const PatternProvider = (props) => {
     setLines({...linesRef.current});
   }
 
+  const setSampleLibrary = (section, newLibrary) => {
+    linesRef.current[section].sampleLibrary = newLibrary;
+    setLines({...linesRef.current});
+  }
+
+
   // const loadPatterns = file => {
   //   const fileReader = new FileReader();
   //   fileReader.readAsText(file, "UTF-8");
@@ -215,6 +202,7 @@ const PatternProvider = (props) => {
     playing,
     toggleMute,
     setLoopCycle,
+    setSampleLibrary,
     changeParameter,
     getParameterValue,
     getParameterWeight,

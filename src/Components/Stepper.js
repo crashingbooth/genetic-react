@@ -10,8 +10,8 @@ function Stepper({label, startValue, changeValue, minValue, maxValue}) {
 
   const changeLocalValue = delta => {
     let newVal = localValue + delta;
-    if (newVal < minValue) { newVal = Number(minValue) };
-    if (newVal > maxValue) { newVal = Number(maxValue) };
+    if (newVal <= minValue) { newVal = Number(minValue) };
+    if (newVal >= maxValue) { newVal = Number(maxValue) };
     setLocalValue(newVal);
     changeValue(newVal);
   }

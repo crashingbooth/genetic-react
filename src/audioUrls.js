@@ -38,7 +38,8 @@ const createNotePools = () => {
 
 const sampler = createSamplerWithResources();
 const pool = createNotePools();
+const libraryNames = Object.keys(resources);
 
 
 
-export { sampler, pool};
+export { sampler, pool, libraryNames};
