@@ -78,9 +78,10 @@ const PatternProvider = (props) => {
       Object.values(linesRef.current).forEach((section) => {
         section.content.forEach((patternPair, j) => {
           let pattern = patternPair.pattern;
+          let sound = rerouteSoundLibrary(pattern.type);
           if ( !patternPair.mute && (i >= 0 && pattern.phrase.flat()[i])) {
             const sampleID = pattern.samples.flat()[i];
-            let note = pool[pattern.type][sampleID % pool[pattern.type].length];
+            let note = pool[sound][sampleID % pool[sound].length];
             sampler.triggerAttackRelease(note, "16n", time);
           }
         });
@@ -97,6 +98,20 @@ const PatternProvider = (props) => {
     Tone.Transport.start();
     playing.current = true;
   };
+
+  const rerouteSoundLibrary = (oldVal) => {
+    switch (oldVal) {
+      case "lo":
+        return oldVal;
+        break;
+      case "mid":
+        return "feel";
+        break;
+      case "hi":
+        return "gam1";
+        break;
+    }
+  }
 
   const stop = () => {
     Tone.Transport.stop();
