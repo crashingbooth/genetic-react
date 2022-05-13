@@ -75,15 +75,26 @@ function evaluateRoleNegative(seq) {
   }
 }
 
-// function evaluateDensity(idealRatio, seq) {
-//   const ticks = seq.phrase.flat();
-//   const expectedTicks = Math.round(ticks.length * idealRatio);
-//   const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
-//   const realTickCount = ticks.reduce((prev,cur) => {
-//     return prev + (cur ? 1 : 0);
-//   },0);
-//   return (1 - Math.abs(expectedTicks - realTickCount)/maxDistance);
-// }
+function evaluateSequenceAgainstModel(seq, model) {
+  let pattern = seq.phrase.flat()
+  let total = 0;
+  pattern.forEach((item, i) => {
+    total += item === model[i] ? 1 : 0;
+  });
+  return total/pattern.length;
+}
+
+function evaluateRoleGeneral(seq) {
+  if (seq.type === 'lo') {
+    return evaluateSequenceAgainstModel(seq,[true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false]);
+  } else if (seq.type === 'mid') {
+    return evaluateSequenceAgainstModel(seq,[false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false]);
+  } else if (seq.type === 'hi') {
+    return evaluateSequenceAgainstModel(seq,[false, true, true, true, false, true, true, true, false, true, true, true, false, true, true, true]);
+  } else {
+    return 0;
+  }
+}
 
 function evaluateDensity(idealRatio, seq) {
   const ticks = seq.phrase.flat();
@@ -203,6 +214,7 @@ module.exports  = { matchSingleChromosome,
                     evaluateSequenceNegative,
                     evaluateRolePositive,  // public
                     evaluateRoleNegative,  // public
+                    evaluateRoleGeneral, // public
                     evaluateDensity,
                     evaluate, // public
                     roleBasedEvaluation, // public

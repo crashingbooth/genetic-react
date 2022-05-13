@@ -14,6 +14,7 @@ function Parameter({parameterName, sectionType, hasValue}) {
       setValue(val);
     }
     const w = getParameterWeight(sectionType, parameterName);
+    console.log(parameterName, w);
     setWeight(w);
   },[systemRules])
 
@@ -33,7 +34,7 @@ function Parameter({parameterName, sectionType, hasValue}) {
       <div className="parameter-section">
         <div className="parameter-section-header">
           <h1>{parameterName}</h1>
-        </div>  
+        </div>
         {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider} value={value}/>}
         <ParameterValueSlider label="weight" movedSlider={movedWeightSlider} value={weight}/>
       </div>
