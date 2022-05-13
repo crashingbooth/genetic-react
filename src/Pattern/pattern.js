@@ -91,18 +91,5 @@ function coin() {
   return Math.random() > 0.5;
 }
 
-function factory(numberOfEach, sections) {
-  let pools = {};
-  sections.forEach(section => {
-    let sectionArr = [];
-    for (let i = 0; i < numberOfEach; i++) {
-      let pat = new Pattern(section);
-      pat.setPhrase('---- ---- ---- ----');
-      sectionArr.push({mute: false, pattern: pat})
-    }
-    pools[section] = {content: sectionArr, loopCycle: 1, sampleLibrary: section};
-  });
-  return pools;
-}
 
-module.exports = {Pattern, coin, factory};
+module.exports = {Pattern, coin};

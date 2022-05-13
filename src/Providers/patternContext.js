@@ -3,13 +3,27 @@ import React, { useState, useContext, createContext, useEffect, useRef } from "r
 import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
-import { Pattern, factory } from "../Pattern/pattern";
+import { Pattern } from "../Pattern/pattern";
 import { generationProcedure, summarize } from "../Pattern/fitness";
 import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
+
+  function factory(numberOfEach, sections) {
+    let pools = {};
+    sections.forEach(section => {
+      let sectionArr = [];
+      for (let i = 0; i < numberOfEach; i++) {
+        let pat = new Pattern(section);
+        pat.setPhrase('---- ---- ---- ----');
+        sectionArr.push({mute: false, pattern: pat})
+      }
+      pools[section] = {content: sectionArr, loopCycle: 1, sampleLibrary: section};
+    });
+    return pools;
+  }
 
   let sampleLines = factory(4, ["hi", "mid", "lo"]);
   // let sampleLines = factory(4, ["lo"]);
