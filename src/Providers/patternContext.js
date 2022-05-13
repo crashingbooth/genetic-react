@@ -4,12 +4,127 @@ import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 // import { Pattern } from "../Pattern/pattern";
-import { generationProcedure, summarize } from "../Pattern/fitness";
-import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
+// import { generationProcedure, summarize } from "../Pattern/fitness";
+// import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
+
+  function evaluateSequenceAgainstModel(seq, model) {
+    let pattern = seq.phrase.flat()
+    let total = 0;
+    pattern.forEach((item, i) => {
+      total += item === model[i] ? 1 : 0;
+    });
+    return total/pattern.length;
+  }
+
+  function evaluateRoleGeneral(seq) {
+    if (seq.type === 'lo') {
+      return evaluateSequenceAgainstModel(seq,[true, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false]);
+    } else if (seq.type === 'mid') {
+      return evaluateSequenceAgainstModel(seq,[false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, false]);
+    } else if (seq.type === 'hi') {
+      return evaluateSequenceAgainstModel(seq,[false, true, true, true, false, true, true, true, false, true, true, true, false, true, true, true]);
+    } else {
+      return 0;
+    }
+  }
+
+  function evaluateDensity(idealRatio, seq) {
+    const ticks = seq.phrase.flat();
+    const activeTicks = ticks.filter(t => t);
+    const realRatio = activeTicks.length/ticks.length;
+    // const expectedTicks = Math.round(ticks.length * idealRatio);
+    // const maxDistance = Math.max(expectedTicks, ticks.length - expectedTicks);
+    // const realTickCount = ticks.reduce((prev,cur) => {
+    //   return prev + (cur ? 1 : 0);
+    // },0);
+    const result = (1 - Math.abs(idealRatio - realRatio));
+    return result;
+  }
+
+  function evaluate(evaluators, seq, summary) {
+    // evaluators:
+    // [{
+    //    fitnessFunction: <function taking seq as arg>,
+    //    weight: multiplier, only meaningful relative to other values
+    // }]
+    // const res = evaluators.reduce((prev, e) => {
+    //   return prev + (e.fitnessFunction(seq) * e.weight);
+    // }, 0);
+
+    let res = 0;
+    for (let i = 0; i < evaluators.length; i++) {
+      const evalScore = evaluators[i].fitnessFunction(seq, summary) * evaluators[i].weight;
+      // console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
+      res += evalScore;
+    }
+    return res;
+  }
+
+  function summarize(seqs) {
+    let result = seqs.reduce((tally, seq) => {
+      seq.forEach((val, i) => {
+        if (val) {tally[i] += 1;}
+      });
+      return tally;
+    }, Array(16).fill(0));
+    return {numSeqs: seqs.length, tally: result };
+  }
+
+  function rewardOriginality(seq, summary) {
+    const ticks = seq.phrase.flat();
+    const otherPopulation = (summary.numSeqs - 1);
+    const scoreByTick = ticks.map((tick, i) => {
+      const posTally = summary.tally[i];
+      const modifiedPosTally = tick ? posTally - 1 : posTally;
+      const posScore = tick ? (otherPopulation - modifiedPosTally)/otherPopulation :  modifiedPosTally/otherPopulation
+      return posScore
+    })
+    const total = scoreByTick.reduce((prev, curr) => prev + curr, 0);
+    return total/ticks.length;
+  }
+
+  function sortByEvaluation(candidates, evaluators, summary) {
+    // candidates: [Pattern]
+    // evaluators: [{fitnessFunction, weight}]
+    // summary: e.g.,[3,0,1,0...] the number of candidates with events at each position
+    // returns [Pattern] sorted by evaluation score
+
+    const scores = candidates.map(c => [c, evaluate(evaluators, c, summary)]);
+    const sortedScores = scores.sort(([candA , scoreA], [candB, scoreB] ) => scoreB - scoreA);
+    const sortedCandidates = sortedScores.map(([cand, score]) => cand);
+    return sortedCandidates;
+  }
+
+  function takeHalf(sortedCandidates) {
+    return sortedCandidates.slice(0,sortedCandidates.length / 2)
+  }
+
+  function breed(sortedCandidates, numParentMutations, numChildMutations) {
+    let kids = [];
+    sortedCandidates.forEach((candidate, i) => {
+      let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
+      if (mateIndex >= i) { mateIndex += 1}
+      let kid = candidate.breed(sortedCandidates[mateIndex]);
+      candidate.multiMutate(numParentMutations, ["phrase", "sample"]);
+      kid.multiMutate(numChildMutations,["phrase", "sample"]);
+      kids.push(kid);
+    });
+    let res = sortedCandidates.concat(kids);
+    return res;
+  }
+
+  function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
+    const seqs = candidates.map(c => c.phrase.flat());
+    const summary = summarize(seqs);
+    const sorted = sortByEvaluation(candidates, evaluators, summary);
+    const survivors = takeHalf(sorted);
+    const nextGen = breed(survivors, numParentMutations, numChildMutations);
+    return nextGen;
+  }
 
   class Pattern {
     constructor(type = "lo", numBeats = 4) {
@@ -117,6 +232,59 @@ const PatternProvider = (props) => {
     });
     return pools;
   }
+
+  const createBasicFitnessConditions = () => {
+    // let conditions = {
+    //   lo: roleBasedEvaluation,
+    //   mid: roleBasedEvaluation,
+    //   hi: roleBasedEvaluation
+    // }
+
+    let conditions = {
+      lo: [],
+      mid: [],
+      hi: []
+    }
+
+    Object.values(conditions).forEach(conditionList => {
+      conditionList.push({
+        description: "density",
+        value: 0.25,
+        fitnessFunction: curryDensity(0.25), // the applied function
+        curryingFunction: curryDensity,
+        weight: 1
+      });
+      conditionList.push({
+        description: "role",
+        fitnessFunction: evaluateRoleGeneral,
+        weight: 1
+      });
+      conditionList.push({
+        description: "reward originality",
+        fitnessFunction: rewardOriginality,
+        weight: 1
+      });
+
+    });
+    return conditions
+  }
+
+  const setDensity = (section, value, conditions) => {
+    let rules = conditions[section];
+    for (let rule of rules) {
+      if (rule.description === "density") {
+        rule.fitnessFunction = curryDensity(value);
+      }
+    }
+    conditions[section] = rules;
+    return conditions;
+  }
+
+  const curryDensity = ratio => {
+    return (seq =>
+      evaluateDensity(ratio, seq)
+    )
+   }
 
   let sampleLines = factory(4, ["hi", "mid", "lo"]);
   // let sampleLines = factory(4, ["lo"]);
