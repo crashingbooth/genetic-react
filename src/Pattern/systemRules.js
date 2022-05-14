@@ -1,10 +1,10 @@
 /* todo: create a structure {lo: evaluators, mid: evaluators, hi: evaluators}
 such that it can be used in the mutate function, and so that it can be modified by the sliders in section
 */
+import { evaluateDensity, evaluateRoleGeneral, rewardOriginality} from './fitness.js';
+//const { evaluateDensity, evaluateRoleGeneral, rewardOriginality} = require('./fitness.js');
 
-const {roleBasedEvaluation, evaluateDensity, evaluateRolePositive, evaluateRoleNegative, evaluateRoleGeneral, rewardOriginality} = require('./fitness.js');
-
-const createBasicFitnessConditions = () => {
+export const createBasicFitnessConditions = () => {
   // let conditions = {
   //   lo: roleBasedEvaluation,
   //   mid: roleBasedEvaluation,
@@ -40,7 +40,7 @@ const createBasicFitnessConditions = () => {
   return conditions
 }
 
-const setDensity = (section, value, conditions) => {
+export const setDensity = (section, value, conditions) => {
   let rules = conditions[section];
   for (let rule of rules) {
     if (rule.description === "density") {
@@ -57,5 +57,5 @@ const curryDensity = ratio => {
   )
  }
 
-module.exports = {createBasicFitnessConditions,
-                  setDensity}
+// module.exports = {createBasicFitnessConditions,
+//                   setDensity}
