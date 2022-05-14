@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import '../Styles/Dot.css';
 import Section from './Section';
 import Transport from './Transport';
+import ProjectParameterSection from './ProjectParameterSection';
 import {patternContext} from '../Providers/patternContext';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <>
       <div className="body-wrapper">
         <Transport/>
+        <ProjectParameterSection/>
         <div className="track-section section-wrapper">
           {Object.keys(lines).map(section => <Section sectionType={section} key={section}/>) }
         </div>
