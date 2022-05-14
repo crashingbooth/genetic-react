@@ -14,7 +14,6 @@ function Parameter({parameterName, sectionType, hasValue}) {
       setValue(val);
     }
     const w = getParameterWeight(sectionType, parameterName);
-    console.log(parameterName, w);
     setWeight(w);
   },[systemRules])
 

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import {patternContext} from '../Providers/patternContext';
 import TempoStepper from './TempoStepper';
+import NumMutationStepper from './NumMutationStepper';
 import '../Styles/styles.css';
 import '../Styles/transport.css';
 
@@ -26,6 +27,7 @@ function Transport() {
       <button className="transport-button" onClick={selectFile}>Load Lines</button>
       <button className="transport-button" onClick={inputFileChanged}>Log File</button>
       <TempoStepper/>
+      <NumMutationStepper target="parent"/>
     </div>
   )
 }

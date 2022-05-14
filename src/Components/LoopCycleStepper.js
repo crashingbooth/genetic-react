@@ -8,7 +8,6 @@ function LoopCycleStepper({sectionType}) {
 
     useEffect(() => {
       if (lines[sectionType]) {
-        console.log("here", lines[sectionType].loopCycle);
         setValue(lines[sectionType].loopCycle);
       }
     },[lines]);

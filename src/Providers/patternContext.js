@@ -31,6 +31,7 @@ const PatternProvider = (props) => {
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
+  const [numMutations, setNumMutations] = useState({parent: 1, child:1})
   const { pos, setPosition } = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
@@ -47,29 +48,13 @@ const PatternProvider = (props) => {
     setLines(sampleLines);
   },[])
 
-  // Sound Mapping
-
   // Pattern Management
-  const mutateAll = () => {
-     Object.keys(linesRef.current).forEach((sectionType) => {
-       let vals = linesRef.current[sectionType].content; // sample generate expects array of patterns
-       let ps = vals.map(item => item.pattern);
-       const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
-       nextGen.forEach((p, i) => {
-          vals[i].pattern = p
-       });
-
-       linesRef.current[sectionType].content = vals;
-     });
-     setLines(linesRef.current);
-  }
   const mutateSome = (loopCount) => {
-    console.log(linesRef.current);
      Object.keys(linesRef.current).forEach((sectionType) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
-         let vals = linesRef.current[sectionType].content; // sample generate expects array of patterns
+         let vals = linesRef.current[sectionType].content;
          let ps = vals.map(item => item.pattern);
-         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], 1,1);// last two: numParentMutations, numChildMutations
+         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.parent, numMutations.child);
          nextGen.forEach((p, i) => {
             vals[i].pattern = p
          });
@@ -215,6 +200,8 @@ const PatternProvider = (props) => {
     toggleMute,
     setLoopCycle,
     setSampleLibrary,
+    numMutations,
+    setNumMutations,
     changeParameter,
     getParameterValue,
     getParameterWeight,
