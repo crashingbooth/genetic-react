@@ -85,6 +85,10 @@ export class Pattern {
     child.samples = childSamples;
     return child;
   }
+
+  replicate() {
+    return this.breed(this);
+  }
 }
 
 export function coin() {

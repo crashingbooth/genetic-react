@@ -88,25 +88,32 @@ function takeHalf(sortedCandidates) {
   return sortedCandidates.slice(0,sortedCandidates.length / 2)
 }
 
-export function breed(sortedCandidates, numParentMutations, numChildMutations) {
+export function breed(populationSize, sortedCandidates, numParentMutations, numChildMutations) {
   let kids = [];
   sortedCandidates.forEach((candidate, i) => {
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
-    let kid = candidate.breed(sortedCandidates[mateIndex]);
+    let kid = sortedCandidates.length < 2 ? candidate.replicate() : candidate.breed(sortedCandidates[mateIndex]);
     candidate.multiMutate(numParentMutations, ["phrase", "sample"]);
     kid.multiMutate(numChildMutations,["phrase", "sample"]);
     kids.push(kid);
   });
   let res = sortedCandidates.concat(kids);
+  // handle e.g., population of 3 with 1 survivor
+  if (res.length < populationSize) {
+    let extra = sortedCandidates[0].replicate()
+    extra.multiMutate(numChildMutations,["phrase", "sample"]);
+    res.push(extra);
+  }
   return res;
 }
 
 export function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
   const seqs = candidates.map(c => c.phrase.flat());
+  const populationSize = candidates.length;
   const summary = summarize(seqs);
   const sorted = sortByEvaluation(candidates, evaluators, summary);
   const survivors = takeHalf(sorted);
-  const nextGen = breed(survivors, numParentMutations, numChildMutations);
+  const nextGen = breed(populationSize, survivors, numParentMutations, numChildMutations);
   return nextGen;
 }
