@@ -1,24 +1,22 @@
-const {Pattern} = require('./pattern.js');
+import { Pattern } from './pattern.js';
 
-class LoPat extends Pattern {
+export class LoPat extends Pattern {
   constructor(numBeats = 4) {
     super(numBeats);
     this.type = "lo";
   }
 }
 
-class HiPat extends Pattern {
+export class HiPat extends Pattern {
   constructor(numBeats = 4) {
     super(numBeats);
     this.type = "hi";
   }
 }
 
-class MidPat extends Pattern {
+export class MidPat extends Pattern {
   constructor(numBeats = 4) {
     super(numBeats);
     this.type = "mid";
   }
 }
-
-module.exports = {LoPat, MidPat, HiPat};

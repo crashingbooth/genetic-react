@@ -1,4 +1,4 @@
-class Pattern {
+export class Pattern {
   constructor(type = "lo", numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
     this.samples = this.chooseSamples(numBeats);
@@ -87,9 +87,6 @@ class Pattern {
   }
 }
 
-function coin() {
+export function coin() {
   return Math.random() > 0.5;
 }
-
-
-module.exports = {Pattern, coin};
