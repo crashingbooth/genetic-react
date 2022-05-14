@@ -174,6 +174,11 @@ const PatternProvider = (props) => {
     setLines({...linesRef.current});
   }
 
+  const reset = () => {
+    linesRef.current = factory(3, ["hi", "mid", "lo"]);
+    setLines({...linesRef.current});
+  }
+
 
   // const loadPatterns = file => {
   //   const fileReader = new FileReader();
@@ -205,7 +210,8 @@ const PatternProvider = (props) => {
     changeParameter,
     getParameterValue,
     getParameterWeight,
-    systemRules
+    systemRules,
+    reset
   };
 
   return (
