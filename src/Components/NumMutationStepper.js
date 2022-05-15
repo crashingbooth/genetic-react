@@ -3,25 +3,28 @@ import {patternContext} from '../Providers/patternContext';
 import Stepper from './Stepper';
 
 function NumMutationStepper({target}) { // target is "parent" or "child"
-    const {numMutations, setNumMutations} = useContext(patternContext);
-    console.log(numMutations);
-    // const [value, setValue] = useState(null);
+    const {numMutations } = useContext(patternContext);
+    const [value, setValue] = useState();
 
-    // useEffect(() => {
-    //   if (lines[sectionType]) {
-    //     setValue(lines[sectionType].loopCycle);
-    //   }
-    // },[lines]);
+    useEffect(() => {
+      console.log(numMutations);
+      if (numMutations.current) {
+        setValue(numMutations.current[target]);
+        console.log(target, numMutations.current[target]);
+      }
+    }, [numMutations.current]);
 
     const changed = (newVal) => {
-      let prev = {...numMutations};
+      let prev = {...numMutations.current};
       prev[target] = newVal
-      setNumMutations({...prev});
+      numMutations.current = {...prev};
+      setValue(newVal);
+      // setNumMutations({...prev});
     }
 
 
   return (
-    <Stepper label={`${target} mutations:`} changeValue={changed} startValue={numMutations[target]} minValue="0" maxValue="4"/>
+    <Stepper label={`${target} mutations:`} changeValue={changed} startValue={value} minValue="0" maxValue="4"/>
   )
 }
 

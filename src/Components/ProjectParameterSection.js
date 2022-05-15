@@ -6,7 +6,7 @@ function ProjectParameterSection() {
   const { reset } = useContext(patternContext);
   return (
     <>
-      <div className="section-wrapper section-controls">
+      <div className="section-wrapper section-controls project-parameters">
         <NumMutationStepper target="parent"/>
         <NumMutationStepper target="child"/>
         <button className="transport-button" onClick={reset}>Reset</button>

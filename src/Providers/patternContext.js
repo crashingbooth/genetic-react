@@ -25,13 +25,13 @@ const PatternProvider = (props) => {
     return pools;
   }
 
-  let sampleLines = factory(3, ["hi", "mid", "lo"]);
+  let sampleLines = factory(5, ["hi", "mid", "lo"]);
   // let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
-  const [numMutations, setNumMutations] = useState({parent: 1, child:1})
+  const numMutations = useRef();
   const { pos, setPosition } = useContext(positionContext);
   const playing = useRef();
   const linesRef = useRef();
@@ -43,6 +43,8 @@ const PatternProvider = (props) => {
     console.log("pattern context setup");
     systemRulesRef.current = createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
+    numMutations.current = {parent: 1, child:1};
+    console.log("context", numMutations);
     linesRef.current = sampleLines;
     changeBPM(140);
     setLines(sampleLines);
@@ -50,11 +52,12 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateSome = (loopCount) => {
+    console.log(numMutations.current);
      Object.keys(linesRef.current).forEach((sectionType) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
          let vals = linesRef.current[sectionType].content;
          let ps = vals.map(item => item.pattern);
-         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.parent, numMutations.child);
+         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.current.parent, numMutations.current.child);
          nextGen.forEach((p, i) => {
             vals[i].pattern = p
          });
@@ -206,7 +209,7 @@ const PatternProvider = (props) => {
     setLoopCycle,
     setSampleLibrary,
     numMutations,
-    setNumMutations,
+    // setNumMutations,
     changeParameter,
     getParameterValue,
     getParameterWeight,

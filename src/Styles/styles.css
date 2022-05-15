@@ -55,6 +55,11 @@ html {
   font-size: 1.5rem;
 }
 
+.project-parameters {
+  display: flex;
+  justify-content: space-between;
+}
+
 .section-wrapper-single {
   display: inline-flex;
   align-items: center;
@@ -79,6 +84,7 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .parameter-section-header {
