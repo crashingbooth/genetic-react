@@ -4,7 +4,7 @@ import { positionContext } from '../Providers/positionContext';
 import { sampler, pool} from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 import { Pattern } from "../Pattern/pattern";
-import { generationProcedure, summarize } from "../Pattern/fitness";
+import { generationProcedure, getEvaluations} from "../Pattern/fitness";
 import { createBasicFitnessConditions, setDensity } from "../Pattern/systemRules";
 
 export const patternContext = createContext();
@@ -25,8 +25,8 @@ const PatternProvider = (props) => {
     return pools;
   }
 
-  let sampleLines = factory(5, ["hi", "mid", "lo"]);
-  // let sampleLines = factory(4, ["lo"]);
+  // let sampleLines = factory(5, ["hi", "mid", "lo"]);
+  let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -57,7 +57,9 @@ const PatternProvider = (props) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
          let vals = linesRef.current[sectionType].content;
          let ps = vals.map(item => item.pattern);
+         const evals = getEvaluations(ps, systemRulesRef.current[sectionType]);
          const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.current.parent, numMutations.current.child);
+         console.log(sectionType,evals);
          nextGen.forEach((p, i) => {
             vals[i].pattern = p
          });

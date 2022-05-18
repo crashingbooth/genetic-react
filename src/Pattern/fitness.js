@@ -49,6 +49,25 @@ export function evaluate(evaluators, seq, summary) {
   return res;
 }
 
+export function generateEvaluationArray(seqs, evaluators, summary) {
+  let result = [];
+
+  seqs.forEach((seq, i) => {
+    const singleSeqScoreArray = evaluators.map(e => {
+      const score = e.fitnessFunction(seq, summary);
+      return {
+        description: e.description,
+        rawScore: score,
+        weight: e.weight,
+        finalScore: score * e.weight
+      };
+    });
+    result.push(singleSeqScoreArray);
+  });
+  console.log("end of genEval", result);
+  return result;
+}
+
 export function summarize(seqs) {
   let result = seqs.reduce((tally, seq) => {
     seq.forEach((val, i) => {
@@ -116,4 +135,12 @@ export function generationProcedure(candidates, evaluators, numParentMutations, 
   const survivors = takeHalf(sorted);
   const nextGen = breed(populationSize, survivors, numParentMutations, numChildMutations);
   return nextGen;
+}
+
+export function getEvaluations(candidates, evaluators) {
+  const seqs = candidates.map(c => c.phrase.flat());
+  const populationSize = candidates.length;
+  const summary = summarize(seqs);
+  const evalArrays = generateEvaluationArray(candidates, evaluators, summary);
+  return evalArrays;
 }
