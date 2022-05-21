@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import ParameterValueSlider from "./ParameterValueSlider"
+import ParameterOutputDisplay from "./ParameterOutputDisplay"
 import '../Styles/Dot.css';
 import { patternContext} from "../Providers/patternContext";
 
@@ -30,12 +31,15 @@ function Parameter({parameterName, sectionType, hasValue}) {
 
   return (
     <>
-      <div className="parameter-section">
-        <div className="parameter-section-header">
-          <h1>{parameterName}</h1>
+      <div className="parameter-section-horizontal">
+        <div className="parameter-section-vertical">
+          <div className="parameter-section-header">
+            <h1>{parameterName}</h1>
+          </div>
+          {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider} value={value}/>}
+          <ParameterValueSlider label="weight" movedSlider={movedWeightSlider} value={weight}/>
         </div>
-        {hasValue && <ParameterValueSlider label="value" movedSlider={movedValueSlider} value={value}/>}
-        <ParameterValueSlider label="weight" movedSlider={movedWeightSlider} value={weight}/>
+        <ParameterOutputDisplay paramName={parameterName} sectionType={sectionType}/>
       </div>
     </>
   )

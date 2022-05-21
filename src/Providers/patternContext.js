@@ -18,7 +18,7 @@ const PatternProvider = (props) => {
       for (let i = 0; i < numberOfEach; i++) {
         let pat = new Pattern(section);
         pat.setPhrase('---- ---- ---- ----');
-        sectionArr.push({mute: false, pattern: pat, score: 0})
+        sectionArr.push({mute: false, pattern: pat, score: 0, evaluation: []})
       }
       pools[section] = {content: sectionArr, loopCycle: 1, sampleLibrary: section};
     });
@@ -38,6 +38,8 @@ const PatternProvider = (props) => {
   const systemRulesRef = useRef();
   const [systemRules, setSystemRules] = useState();
   const [bpm, setBpm] = useState(140);
+  const [loopCount, setLoopCount] = useState(-1);
+  const loopCountRef = useRef();
 
   useEffect(() => {
     console.log("pattern context setup");
@@ -48,6 +50,7 @@ const PatternProvider = (props) => {
     linesRef.current = sampleLines;
     changeBPM(140);
     setLines(sampleLines);
+    loopCountRef.current = -1;
   },[])
 
   // Pattern Management
@@ -55,24 +58,18 @@ const PatternProvider = (props) => {
      Object.keys(linesRef.current).forEach((sectionType) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
          let content = linesRef.current[sectionType].content;
-         // let ps = content.map(item => item.pattern);
-         // const evals = getEvaluations(ps, systemRulesRef.current[sectionType]);
-         // appendEvaluations(content,evals);
-         // const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.current.parent, numMutations.current.child);
-         // console.log("before gen:", showIdAndScore(content));
          const nextGen = generationProcedure(content,
            systemRulesRef.current[sectionType],
            numMutations.current.parent,
            numMutations.current.child);
 
-        // console.log("just generated", nextGen);
          const evals = getEvaluations(nextGen, systemRulesRef.current[sectionType]);
          content = appendEvaluations(content,evals);
          nextGen.forEach((p, i) => {
             content[i].pattern = p
          });
          // check here
-        console.log("after eval:", showIdAndScore(content));
+        // console.log("after eval:", showIdAndScore(content));
          linesRef.current[sectionType].content = content;
        }
      });
@@ -97,7 +94,6 @@ const PatternProvider = (props) => {
 
   const play = () => {
     if (playing.current) { return }
-    let loopCount = -1;
     Tone.start()
     let i = pos;
     loopA = new Tone.Loop((time) => {
@@ -116,9 +112,9 @@ const PatternProvider = (props) => {
       i = ((i + 1) % 16);
       setPosition(i);
       if (i === 0) {
-        loopCount += 1;
-        mutateSome(loopCount);
-        // console.log("mutate",linesRef.current);
+        loopCountRef.current += 1;
+        setLoopCount(loopCountRef.current);
+        mutateSome(loopCountRef.current);
       }
     }, "8n").start(0);
 
@@ -232,6 +228,7 @@ const PatternProvider = (props) => {
     playing,
     toggleMute,
     setLoopCycle,
+    loopCount,
     setSampleLibrary,
     numMutations,
     // setNumMutations,

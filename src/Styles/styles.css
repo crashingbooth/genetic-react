@@ -76,7 +76,26 @@ html {
   overflow: hidden;
 }
 
-.parameter-section {
+.parameter-section-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.param-output-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.param-output-wrapper p {
+  display: block;
+  width: 3.5rem;
+  height: 2.9rem;
+  padding: 0.6rem 0;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.parameter-section-vertical {
   border: 1px solid black;
   margin: 0.5rem;
   font-weight: 200;
@@ -95,7 +114,7 @@ html {
   text-align: center;
 }
 
-.parameter-section p {
+.parameter-section-vertical p {
   text-align: left;
   margin: 0 .5rem;
 }
