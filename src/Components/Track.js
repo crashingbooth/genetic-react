@@ -13,6 +13,7 @@ export default function Track({lineNumber, sectionType}) {
         // <p>{`${lines[sectionType][lineNumber].pattern.id} ${lines[sectionType][lineNumber].pattern.ancestors[0]}-${lines[sectionType][lineNumber].pattern.ancestors[1]} ${sectionType}`}</p>
   return (
     <div className='single-track-wrapper'>
+      <p>{`${lines[sectionType].content[lineNumber].pattern.id}`}</p>
       <MuteButton section={sectionType} lineNumber={lineNumber}/>
       <div className="spacer"></div>
       <TrackEventSection lineNumber={lineNumber} sectionType={sectionType}/>

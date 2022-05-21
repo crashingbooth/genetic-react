@@ -40,18 +40,34 @@ const PatternProvider = (props) => {
   const [bpm, setBpm] = useState(140);
   const [loopCount, setLoopCount] = useState(-1);
   const loopCountRef = useRef();
+  const nextId = useRef();
 
   useEffect(() => {
     console.log("pattern context setup");
+    nextId.current = 0;
     systemRulesRef.current = createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
     numMutations.current = {parent: 1, child:1};
-    console.log("context", numMutations);
+    console.log("context", sampleLines);
     linesRef.current = sampleLines;
+    assignIds(linesRef.current)
+    console.log("start", linesRef.current);
     changeBPM(140);
-    setLines(sampleLines);
+    setLines(linesRef.current);
     loopCountRef.current = -1;
   },[])
+
+  const assignIds = (lines) => {
+    const sections = Object.values(lines);
+    sections.forEach((section, i) => {
+      section.content.forEach((line, i) => {
+        if (!line.pattern.id) {
+          line.pattern.id = nextId.current;
+          nextId.current += 1;
+        }
+      });
+    });
+  }
 
   // Pattern Management
   const mutateSome = (loopCount) => {
@@ -73,6 +89,8 @@ const PatternProvider = (props) => {
          linesRef.current[sectionType].content = content;
        }
      });
+     assignIds(linesRef.current);
+     console.log("post mut", linesRef.current);
      setLines(linesRef.current);
   }
 

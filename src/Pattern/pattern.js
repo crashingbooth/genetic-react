@@ -1,15 +1,17 @@
 export class Pattern {
-  constructor(type = "lo", numBeats = 4) {
+
+   constructor(type = "lo", numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
     this.samples = this.chooseSamples(numBeats);
-    this.id = Math.floor(Math.random() * 1000);
+    // this.id = Math.floor(Math.random() * 1000);
+    this.id = null;
     this.ancestors = [0,0];
     this.type = type;
   }
 
   generateBasic(beats) {
     let res = [];
-    const simple = [true, false, false, false]
+    const simple = [true, false, false, false];
     for (let i = 0; i < beats; i++) {
       res.push([...simple]);
     }

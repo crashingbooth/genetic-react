@@ -19,6 +19,11 @@
   justify-content: left;
 }
 
+.single-track-wrapper p {
+  display: block;
+  width: 2rem;
+}
+
 .v-line {
   border-left: 2px solid black;
   height: 2rem;
