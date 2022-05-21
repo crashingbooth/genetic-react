@@ -7,10 +7,8 @@ function NumMutationStepper({target}) { // target is "parent" or "child"
     const [value, setValue] = useState();
 
     useEffect(() => {
-      console.log(numMutations);
       if (numMutations.current) {
         setValue(numMutations.current[target]);
-        console.log(target, numMutations.current[target]);
       }
     }, [numMutations.current]);
 

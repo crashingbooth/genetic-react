@@ -18,7 +18,7 @@ const PatternProvider = (props) => {
       for (let i = 0; i < numberOfEach; i++) {
         let pat = new Pattern(section);
         pat.setPhrase('---- ---- ---- ----');
-        sectionArr.push({mute: false, pattern: pat})
+        sectionArr.push({mute: false, pattern: pat, score: 0})
       }
       pools[section] = {content: sectionArr, loopCycle: 1, sampleLibrary: section};
     });
@@ -52,22 +52,44 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateSome = (loopCount) => {
-    console.log(numMutations.current);
      Object.keys(linesRef.current).forEach((sectionType) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
-         let vals = linesRef.current[sectionType].content;
-         let ps = vals.map(item => item.pattern);
-         const evals = getEvaluations(ps, systemRulesRef.current[sectionType]);
-         const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.current.parent, numMutations.current.child);
-         console.log(sectionType,evals);
-         nextGen.forEach((p, i) => {
-            vals[i].pattern = p
-         });
+         let content = linesRef.current[sectionType].content;
+         // let ps = content.map(item => item.pattern);
+         // const evals = getEvaluations(ps, systemRulesRef.current[sectionType]);
+         // appendEvaluations(content,evals);
+         // const nextGen = generationProcedure(ps, systemRulesRef.current[sectionType], numMutations.current.parent, numMutations.current.child);
+         // console.log("before gen:", showIdAndScore(content));
+         const nextGen = generationProcedure(content,
+           systemRulesRef.current[sectionType],
+           numMutations.current.parent,
+           numMutations.current.child);
 
-         linesRef.current[sectionType].content = vals;
+        // console.log("just generated", nextGen);
+         const evals = getEvaluations(nextGen, systemRulesRef.current[sectionType]);
+         content = appendEvaluations(content,evals);
+         nextGen.forEach((p, i) => {
+            content[i].pattern = p
+         });
+         // check here
+        console.log("after eval:", showIdAndScore(content));
+         linesRef.current[sectionType].content = content;
        }
      });
      setLines(linesRef.current);
+  }
+
+  const appendEvaluations = (content, evaluations) => {
+    content.forEach((item, i) => {
+      item.evaluation = evaluations[i];
+      item.score = evaluations[i].reduce((acc, curr) => acc + curr.finalScore,0);
+    });
+    return content;
+  }
+
+  const showIdAndScore = (content) => {
+    return content.map(e => ({id: e.pattern.id ,score: e.score.toFixed(3),
+       pat: e.pattern.showPhrase(), dens: e.evaluation[0].finalScore, role: e.evaluation[1].finalScore}))
   }
 
   // Sequencer
@@ -96,6 +118,7 @@ const PatternProvider = (props) => {
       if (i === 0) {
         loopCount += 1;
         mutateSome(loopCount);
+        // console.log("mutate",linesRef.current);
       }
     }, "8n").start(0);
 

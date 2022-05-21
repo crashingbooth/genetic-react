@@ -64,7 +64,6 @@ export function generateEvaluationArray(seqs, evaluators, summary) {
     });
     result.push(singleSeqScoreArray);
   });
-  console.log("end of genEval", result);
   return result;
 }
 
@@ -127,16 +126,35 @@ export function breed(populationSize, sortedCandidates, numParentMutations, numC
   return res;
 }
 
-export function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
-  const seqs = candidates.map(c => c.phrase.flat());
-  const populationSize = candidates.length;
-  const summary = summarize(seqs);
-  const sorted = sortByEvaluation(candidates, evaluators, summary);
+
+// old one to be replaced
+// export function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
+//   const seqs = candidates.map(c => c.phrase.flat());
+//   const populationSize = candidates.length;
+//   const summary = summarize(seqs);
+//   const sorted = sortByEvaluation(candidates, evaluators, summary);
+//   const survivors = takeHalf(sorted);
+//   const nextGen = breed(populationSize, survivors, numParentMutations, numChildMutations);
+//   return nextGen;
+// }
+
+
+// new one that doesn't work yet
+export function generationProcedure(content, numParentMutations, numChildMutations) {
+
+  // sort by evaluations
+  const sorted = content.sort((a,b) => b.score - a.score);
   const survivors = takeHalf(sorted);
-  const nextGen = breed(populationSize, survivors, numParentMutations, numChildMutations);
+  const survivorPatterns = survivors.map(e => e.pattern);
+  // console.log("survPat", survivorPatterns);
+  const nextGen = breed(content.length, survivorPatterns, numParentMutations, numChildMutations);
+  // console.log("next Gen", nextGen);
   return nextGen;
 }
 
+
+
+// takes [Pattern]
 export function getEvaluations(candidates, evaluators) {
   const seqs = candidates.map(c => c.phrase.flat());
   const populationSize = candidates.length;

@@ -10,8 +10,8 @@ export const createBasicFitnessConditions = () => {
   Object.values(conditions).forEach(conditionList => {
     conditionList.push({
       description: "density",
-      value: 0.25,
-      fitnessFunction: curryDensity(0.25), // the applied function
+      value: (6/16),
+      fitnessFunction: curryDensity(6/16), // the applied function
       curryingFunction: curryDensity,
       weight: 1
     });
@@ -23,7 +23,7 @@ export const createBasicFitnessConditions = () => {
     conditionList.push({
       description: "reward originality",
       fitnessFunction: rewardOriginality,
-      weight: 1
+      weight: 0
     });
 
   });
