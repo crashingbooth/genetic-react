@@ -71,6 +71,7 @@ const PatternProvider = (props) => {
 
   // Pattern Management
   const mutateSome = (loopCount) => {
+    if (loopCount === 0) { return }
      Object.keys(linesRef.current).forEach((sectionType) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
          let content = linesRef.current[sectionType].content;
@@ -87,7 +88,6 @@ const PatternProvider = (props) => {
        }
      });
      assignIds(linesRef.current);
-     // console.log("post mut", linesRef.current);
      setLines(linesRef.current);
   }
 

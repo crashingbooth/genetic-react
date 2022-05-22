@@ -3,7 +3,7 @@ import { patternContext} from "../Providers/patternContext";
 
 function ParameterOutputDisplay({sectionType, paramName}) {
   const { lines, loopCount } = useContext(patternContext);
-  const [scores, setScores] = useState(["-","-","-","-"]);
+  const [scores, setScores] = useState(Array(lines[sectionType].content.length).fill("-"));
 
   useEffect(() => {
     if (lines[sectionType].content[0].evaluation[0]) {

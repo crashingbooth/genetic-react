@@ -132,7 +132,6 @@ export function generationProcedure(content, numParentMutations, numChildMutatio
   const survivors = takeHalf(sorted);
   survivors.forEach(i => i.pattern.age += 1);
   const survivorPatterns = survivors.map(e => e.pattern);
-  console.log("genprod", numParentMutations, numChildMutations);
   const nextGen = breed(content.length, survivorPatterns, numParentMutations, numChildMutations);
   return nextGen;
 }
