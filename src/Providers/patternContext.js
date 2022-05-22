@@ -25,8 +25,8 @@ const PatternProvider = (props) => {
     return pools;
   }
 
-  // let sampleLines = factory(5, ["hi", "mid", "lo"]);
-  let sampleLines = factory(4, ["lo"]);
+  let sampleLines = factory(5, ["hi", "mid", "lo"]);
+  // let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
@@ -90,7 +90,7 @@ const PatternProvider = (props) => {
        }
      });
      assignIds(linesRef.current);
-     console.log("post mut", linesRef.current);
+     // console.log("post mut", linesRef.current);
      setLines(linesRef.current);
   }
 

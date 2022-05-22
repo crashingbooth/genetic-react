@@ -1,20 +1,15 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { patternContext} from "../Providers/patternContext";
 
-function ParameterOutputDisplay({sectionType, paramName}) {
+function TotalScoreOutputDisplay({ sectionType }) {
   const { lines, loopCount } = useContext(patternContext);
   const [scores, setScores] = useState(["-","-","-","-"]);
 
   useEffect(() => {
-    if (lines[sectionType].content[0].evaluation[0]) {
-      let evals =  lines[sectionType].content
-        .map(l => l.evaluation)
-      evals.forEach((item, i) => {
-          evals[i] = item.filter(i => i.description === paramName);
-      })
-      evals = evals.map(l => l[0].finalScore.toFixed(3));
-      setScores(evals);
-    };
+    if (lines[sectionType]) {
+      const totalScores = lines[sectionType].content.map(e => e.score.toFixed(3));
+      setScores(totalScores);
+    }
   }, [loopCount])
 
   return (
@@ -26,4 +21,4 @@ function ParameterOutputDisplay({sectionType, paramName}) {
   )
 }
 
-export default ParameterOutputDisplay;
+export default TotalScoreOutputDisplay;

@@ -123,6 +123,10 @@ html {
   padding: 0.5rem 0;
 }
 
+.parameter-output-section {
+  margin: 1rem;
+}
+
 /* slider */
 .horizontal-slider {
   width: 9rem;

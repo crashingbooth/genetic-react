@@ -3,6 +3,7 @@ import Track from './Track';
 import Parameter from './Parameter';
 import LoopCycleStepper from './LoopCycleStepper';
 import SampleLibraryStepper from './SampleLibraryStepper';
+import TotalScoreOutputDisplay from './TotalScoreOutputDisplay';
 import { patternContext} from "../Providers/patternContext";
 import "../Styles/Track.css";
 
@@ -27,6 +28,7 @@ function Section({sectionType}) {
             <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
             <Parameter parameterName="role" className="parameter" sectionType={sectionType}/>
             <Parameter parameterName="reward originality" className="parameter" sectionType={sectionType}/>
+            <TotalScoreOutputDisplay sectionType={sectionType}/>
           </div>
         </div>
       </div>
