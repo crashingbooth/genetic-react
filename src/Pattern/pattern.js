@@ -1,10 +1,9 @@
 export class Pattern {
-
    constructor(type = "lo", numBeats = 4) {
     this.phrase = this.generateBasic(numBeats);
     this.samples = this.chooseSamples(numBeats);
-    // this.id = Math.floor(Math.random() * 1000);
-    this.id = null;
+    this.id = null;  // id is assigned in patternContext
+    this.age = 0; // set/incremented in fitness's breed/generationProcedure functions
     this.ancestors = [0,0];
     this.type = type;
   }

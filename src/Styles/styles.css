@@ -63,7 +63,6 @@ html {
 .section-wrapper-single {
   display: inline-flex;
   align-items: center;
-  margin: 0.5rem 0;
 }
 
 .section-controls {
@@ -80,6 +79,7 @@ html {
   display: flex;
   flex-direction: row;
   border: 1px solid black;
+  background-color: #ddd;
 }
 
 .parameter-section-horizontal:not(:first-child) {

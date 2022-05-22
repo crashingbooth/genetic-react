@@ -112,6 +112,7 @@ export function breed(populationSize, sortedCandidates, numParentMutations, numC
     let mateIndex = Math.floor(Math.random() * (sortedCandidates.length - 1));
     if (mateIndex >= i) { mateIndex += 1}
     let kid = sortedCandidates.length < 2 ? candidate.replicate() : candidate.breed(sortedCandidates[mateIndex]);
+    kid.age = 0;
     candidate.multiMutate(numParentMutations, ["phrase", "sample"]);
     kid.multiMutate(numChildMutations,["phrase", "sample"]);
     kids.push(kid);
@@ -126,29 +127,15 @@ export function breed(populationSize, sortedCandidates, numParentMutations, numC
   return res;
 }
 
-
-// old one to be replaced
-// export function generationProcedure(candidates, evaluators, numParentMutations, numChildMutations) {
-//   const seqs = candidates.map(c => c.phrase.flat());
-//   const populationSize = candidates.length;
-//   const summary = summarize(seqs);
-//   const sorted = sortByEvaluation(candidates, evaluators, summary);
-//   const survivors = takeHalf(sorted);
-//   const nextGen = breed(populationSize, survivors, numParentMutations, numChildMutations);
-//   return nextGen;
-// }
-
-
-// new one that doesn't work yet
 export function generationProcedure(content, numParentMutations, numChildMutations) {
-
-  // sort by evaluations
   const sorted = content.sort((a,b) => b.score - a.score);
   const survivors = takeHalf(sorted);
+  survivors.forEach(i => {
+    i.pattern.age += 1
+  });
+  console.log("at age", survivors);
   const survivorPatterns = survivors.map(e => e.pattern);
-  // console.log("survPat", survivorPatterns);
   const nextGen = breed(content.length, survivorPatterns, numParentMutations, numChildMutations);
-  // console.log("next Gen", nextGen);
   return nextGen;
 }
 
