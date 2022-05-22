@@ -154,22 +154,19 @@ const PatternProvider = (props) => {
 
   // Rules/fitness
   const changeParameter = (section, paramName, value, weight) => {
-    let sectionRules = Object.values(systemRulesRef.current);
-      sectionRules.forEach(ruleList => {
-        ruleList.forEach(rule => {
-
-          if (rule.description === paramName) {
-            if (rule.curryingFunction && value !== null) {
-              rule.fitnessFunction = rule.curryingFunction(value);
-              rule.value = value;
-            }
-            if (weight !== null) {
-              rule.weight = weight;
-            }
-          }
-        });
-      });
-      setSystemRules(systemRulesRef.current);
+    let relevantSectionRules = systemRulesRef.current[section];
+    relevantSectionRules.forEach(rule => {
+      if (rule.description === paramName) {
+        if (rule.curryingFunction && value !== null) {
+          rule.fitnessFunction = rule.curryingFunction(value);
+          rule.value = value;
+        }
+        if (weight !== null) {
+          rule.weight = weight;
+        }
+      }
+    });
+    setSystemRules(systemRulesRef.current);
   }
 
   const getParameterValue = (section, paramName) => {
@@ -220,20 +217,6 @@ const PatternProvider = (props) => {
     linesRef.current = factory(3, ["hi", "mid", "lo"]);
     setLines({...linesRef.current});
   }
-
-
-  // const loadPatterns = file => {
-  //   const fileReader = new FileReader();
-  //   fileReader.readAsText(file, "UTF-8");
-  //   fileReader.onload = e => {
-  //     const { tempo, patterns } = JSON.parse(e.target.result);
-  //     changeBPM(tempo);
-  //     changeLines(deepCopyTrackSet(patterns))
-  //     addToHistory(deepCopyTrackSet(patterns));
-  //   };
-  // }
-
-
 
   const provideData = {
     lines,
