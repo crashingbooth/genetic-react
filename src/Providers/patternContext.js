@@ -47,7 +47,7 @@ const PatternProvider = (props) => {
     nextId.current = 0;
     systemRulesRef.current = createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
-    numMutations.current = {parent: 1, child:1};
+    numMutations.current = {parent: 0, child:1};
     console.log("context", sampleLines);
     linesRef.current = sampleLines;
     assignIds(linesRef.current)
@@ -75,7 +75,6 @@ const PatternProvider = (props) => {
        if (loopCount % linesRef.current[sectionType].loopCycle === 0) {
          let content = linesRef.current[sectionType].content;
          const nextGen = generationProcedure(content,
-           systemRulesRef.current[sectionType],
            numMutations.current.parent,
            numMutations.current.child);
 
@@ -84,8 +83,6 @@ const PatternProvider = (props) => {
          nextGen.forEach((p, i) => {
             content[i].pattern = p
          });
-         // check here
-        // console.log("after eval:", showIdAndScore(content));
          linesRef.current[sectionType].content = content;
        }
      });
