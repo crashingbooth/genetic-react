@@ -45,8 +45,7 @@ const PatternProvider = (props) => {
   useEffect(() => {
     console.log("pattern context setup");
     nextId.current = 0;
-    systemRulesRef.current = createBasicFitnessConditions();
-    setSystemRules(systemRulesRef.current);
+    handleSystemRules();
     numMutations.current = {parent: 0, child:1};
     console.log("context", sampleLines);
     linesRef.current = sampleLines;
@@ -56,6 +55,31 @@ const PatternProvider = (props) => {
     setLines(linesRef.current);
     loopCountRef.current = -1;
   },[])
+
+  useEffect(() => {
+    localStorage.setItem("tempo", JSON.stringify(bpm));
+  },[bpm]);
+
+  useEffect(() => {
+    writeSystemRulesToLocalStorage();
+  },[systemRules])
+
+  const writeSystemRulesToLocalStorage = () => {
+    localStorage.setItem("systemRules", JSON.stringify(systemRules));
+    console.log("sysRule", systemRules);
+  }
+
+  // const readFromLocalStorage = () => {
+  //   const sysRules = localStorage.getItem('systemRules');
+  //   setSystemRules(sysRule);
+  // }
+
+  const handleSystemRules = () => {
+    const sysRule = localStorage.getItem('systemRules');
+    console.log("handle", JSON.parse(sysRule) );
+    systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
+    setSystemRules(systemRulesRef.current);
+  }
 
   const assignIds = (lines) => {
     const sections = Object.values(lines);
@@ -163,7 +187,9 @@ const PatternProvider = (props) => {
         }
       }
     });
+    console.log("changePar",value,weight);
     setSystemRules(systemRulesRef.current);
+    writeSystemRulesToLocalStorage();
   }
 
   const getParameterValue = (section, paramName) => {
