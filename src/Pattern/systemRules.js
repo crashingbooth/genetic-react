@@ -1,4 +1,4 @@
-import { evaluateDensity, evaluateRoleGeneral, rewardOriginality} from './fitness.js';
+import { evaluateDensity, evaluateRoleGeneral, rewardOriginality, evaluateDensityFromArgBundle, rewardOriginalityFromArgBundle } from './fitness.js';
 
 export const createBasicFitnessConditions = () => {
   let conditions = {
@@ -11,18 +11,18 @@ export const createBasicFitnessConditions = () => {
     conditionList.push({
       description: "density",
       value: (6/16),
-      fitnessFunction: curryDensity(6/16), // the applied function
-      curryingFunction: curryDensity,
+      // fitnessFunction: curryDensity(6/16), // the applied function
+      // curryingFunction: curryDensity,
       weight: 1
     });
     conditionList.push({
       description: "role",
-      fitnessFunction: evaluateRoleGeneral,
+      // fitnessFunction: evaluateRoleGeneral,
       weight: 1
     });
     conditionList.push({
-      description: "reward originality",
-      fitnessFunction: rewardOriginality,
+      description: "rewardOriginality",
+      // fitnessFunction: rewardOriginality,
       weight: 0
     });
 

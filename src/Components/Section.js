@@ -27,7 +27,7 @@ function Section({sectionType}) {
           <div className="section-controls">
             <Parameter parameterName="density" className="parameter" sectionType={sectionType} hasValue/>
             <Parameter parameterName="role" className="parameter" sectionType={sectionType}/>
-            <Parameter parameterName="reward originality" className="parameter" sectionType={sectionType}/>
+            <Parameter parameterName="rewardOriginality" className="parameter" sectionType={sectionType}/>
             <TotalScoreOutputDisplay sectionType={sectionType}/>
           </div>
         </div>

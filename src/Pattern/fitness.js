@@ -22,11 +22,21 @@ export function evaluateRoleGeneral(seq) {
   }
 }
 
+//obsolete
 export function evaluateDensity(idealRatio, seq) {
   const ticks = seq.phrase.flat();
   const activeTicks = ticks.filter(t => t);
   const realRatio = activeTicks.length/ticks.length;
   const result = (1 - Math.abs(idealRatio - realRatio));
+  return result;
+}
+
+export function evaluateDensityFromArgBundle(seq, bundle) {
+  const { value } =  bundle;
+  const ticks = seq.phrase.flat();
+  const activeTicks = ticks.filter(t => t);
+  const realRatio = activeTicks.length/ticks.length;
+  const result = (1 - Math.abs(value - realRatio));
   return result;
 }
 
@@ -42,19 +52,28 @@ export function evaluate(evaluators, seq, summary) {
 
   let res = 0;
   for (let i = 0; i < evaluators.length; i++) {
-    const evalScore = evaluators[i].fitnessFunction(seq, summary) * evaluators[i].weight;
+    const argBundle = { value: evaluators[i].value, summary: summary }
+    const fitnessFunction = fitnessFunctionLookup(evaluators[i].description);
+    const evalScore = fitnessFunction(seq, argBundle) * evaluators[i].weight;
     // console.log(evaluators[i].description, evalScore, "w:", evaluators[i].weight);
     res += evalScore;
   }
   return res;
 }
 
+const fitnessFunctionLookup = {
+  role: evaluateRoleGeneral,
+  rewardOriginality: rewardOriginality,
+  density: evaluateDensityFromArgBundle
+}
+
 export function generateEvaluationArray(seqs, evaluators, summary) {
   let result = [];
-
   seqs.forEach((seq, i) => {
     const singleSeqScoreArray = evaluators.map(e => {
-      const score = e.fitnessFunction(seq, summary);
+      const argBundle = { value: e.value, summary: summary }
+      const fitnessFunction = fitnessFunctionLookup[e.description];
+      const score = fitnessFunction(seq, argBundle);
       return {
         description: e.description,
         rawScore: score,
@@ -77,7 +96,8 @@ export function summarize(seqs) {
   return {numSeqs: seqs.length, tally: result };
 }
 
-export function rewardOriginality(seq, summary) {
+export function rewardOriginality(seq, argBundle) {
+  const { summary } = argBundle
   const ticks = seq.phrase.flat();
   const otherPopulation = (summary.numSeqs - 1);
   const scoreByTick = ticks.map((tick, i) => {

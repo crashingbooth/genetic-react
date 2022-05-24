@@ -65,6 +65,10 @@ const PatternProvider = (props) => {
   },[systemRules])
 
   const writeSystemRulesToLocalStorage = () => {
+    // fitness function doesn't get saved. This should be looked up and only the value stored and saved
+    // each function will get passed a fitnessFunction Parameter bundle: seq, {value, summary}
+    // maybe all it needs is the seq
+
     localStorage.setItem("systemRules", JSON.stringify(systemRules));
     console.log("sysRule", systemRules);
   }
@@ -77,7 +81,8 @@ const PatternProvider = (props) => {
   const handleSystemRules = () => {
     const sysRule = localStorage.getItem('systemRules');
     console.log("handle", JSON.parse(sysRule) );
-    systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
+    // systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
+    systemRulesRef.current =  createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
   }
 
@@ -178,9 +183,9 @@ const PatternProvider = (props) => {
     let relevantSectionRules = systemRulesRef.current[section];
     relevantSectionRules.forEach(rule => {
       if (rule.description === paramName) {
-        if (rule.curryingFunction && value !== null) {
-          rule.fitnessFunction = rule.curryingFunction(value);
+        if (value !== null) {
           rule.value = value;
+          console.log("rule",section, rule.description, rule.value );
         }
         if (weight !== null) {
           rule.weight = weight;
