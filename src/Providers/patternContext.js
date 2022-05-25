@@ -52,7 +52,7 @@ const PatternProvider = (props) => {
     linesRef.current = sampleLines;
     assignIds(linesRef.current)
     console.log("start", linesRef.current);
-    changeBPM(140);
+    handleOtherLocalStorage();
     setLines(linesRef.current);
     loopCountRef.current = -1;
   },[])
@@ -71,9 +71,17 @@ const PatternProvider = (props) => {
 
   const handleSystemRules = () => {
     const sysRule = localStorage.getItem('systemRules');
-    console.log("handle", JSON.parse(sysRule));
-    systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
+    if (sysRule && sysRule !== 'undefined') {
+      systemRulesRef.current = JSON.parse(sysRule)
+    } else {
+      systemRulesRef.current = createBasicFitnessConditions();
+    }
     setSystemRules(systemRulesRef.current);
+  }
+
+  const handleOtherLocalStorage = () => {
+    const tempo = localStorage.getItem("tempo") ;
+    changeBPM(Number(tempo) || 140);
   }
 
   const assignIds = (lines) => {
@@ -128,6 +136,7 @@ const PatternProvider = (props) => {
 
   const play = () => {
     if (playing.current) { return }
+    mutateSome(loopCountRef.current);
     Tone.start()
     let i = pos;
     loopA = new Tone.Loop((time) => {
@@ -242,6 +251,7 @@ const PatternProvider = (props) => {
     systemRulesRef.current = createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
     writeSystemRulesToLocalStorage();
+    changeBPM(140);
   }
 
   const provideData = {
