@@ -25,7 +25,8 @@ const PatternProvider = (props) => {
     return pools;
   }
 
-  let sampleLines = factory(5, ["hi", "mid", "lo"]);
+  const [linesPerSection, setLinesPerSection] = useState(5);
+  let sampleLines = factory(linesPerSection, ["hi", "mid", "lo"]);
   // let sampleLines = factory(4, ["lo"]);
 
   const [lines, setLines] = useState(sampleLines);
@@ -65,24 +66,13 @@ const PatternProvider = (props) => {
   },[systemRules])
 
   const writeSystemRulesToLocalStorage = () => {
-    // fitness function doesn't get saved. This should be looked up and only the value stored and saved
-    // each function will get passed a fitnessFunction Parameter bundle: seq, {value, summary}
-    // maybe all it needs is the seq
-
     localStorage.setItem("systemRules", JSON.stringify(systemRules));
-    console.log("sysRule", systemRules);
   }
-
-  // const readFromLocalStorage = () => {
-  //   const sysRules = localStorage.getItem('systemRules');
-  //   setSystemRules(sysRule);
-  // }
 
   const handleSystemRules = () => {
     const sysRule = localStorage.getItem('systemRules');
-    console.log("handle", JSON.parse(sysRule) );
-    // systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
-    systemRulesRef.current =  createBasicFitnessConditions();
+    console.log("handle", JSON.parse(sysRule));
+    systemRulesRef.current = sysRule ? JSON.parse(sysRule) : createBasicFitnessConditions();
     setSystemRules(systemRulesRef.current);
   }
 
@@ -242,7 +232,8 @@ const PatternProvider = (props) => {
   }
 
   const reset = () => {
-    linesRef.current = factory(3, ["hi", "mid", "lo"]);
+    linesRef.current = factory(linesPerSection, ["hi", "mid", "lo"]);
+    nextId.current = 0;
     setLines({...linesRef.current});
   }
 
