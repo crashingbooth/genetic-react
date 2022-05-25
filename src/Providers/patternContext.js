@@ -234,6 +234,7 @@ const PatternProvider = (props) => {
   const resetPatterns = () => {
     linesRef.current = factory(linesPerSection, ["hi", "mid", "lo"]);
     nextId.current = 0;
+    assignIds(linesRef.current);
     setLines({...linesRef.current});
   }
 
