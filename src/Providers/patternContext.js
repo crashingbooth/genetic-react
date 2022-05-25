@@ -231,10 +231,16 @@ const PatternProvider = (props) => {
     setLines({...linesRef.current});
   }
 
-  const reset = () => {
+  const resetPatterns = () => {
     linesRef.current = factory(linesPerSection, ["hi", "mid", "lo"]);
     nextId.current = 0;
     setLines({...linesRef.current});
+  }
+
+  const resetParameters = () => {
+    systemRulesRef.current = createBasicFitnessConditions();
+    setSystemRules(systemRulesRef.current);
+    writeSystemRulesToLocalStorage();
   }
 
   const provideData = {
@@ -256,7 +262,8 @@ const PatternProvider = (props) => {
     getParameterValue,
     getParameterWeight,
     systemRules,
-    reset
+    resetPatterns,
+    resetParameters
   };
 
   return (
